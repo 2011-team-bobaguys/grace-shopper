@@ -1,19 +1,59 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Artist, Cart, Product} = require('../server/db/models')
 
 async function seed() {
-  await db.sync({force: true})
-  console.log('db synced!')
+  try {
+    await db.sync({force: true})
+    console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+    //DEFINITIONS
 
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
+    //NEW CARTS
+    const cart1 = await Cart.create()
+
+    //NEW USERS
+    const User1 = await User.create({
+      email: 'email@email.com',
+      password: '12345',
+      fullName: 'User One',
+      username: 'firstuser123',
+    })
+
+    //NEW ARTISTS
+    const Andy = await Artist.create({name: 'Andy Warhol'})
+
+    //NEW PRODUCTS
+    const Soup = await Product.create({
+      title: `Andy Warhol's Famous Soup`,
+      genre: 'pop',
+      price: 50000,
+      medium: 'painting',
+    })
+
+    for (let i = 0; i <= 50; i++) {
+      let newProduct = await Product.create({
+        title: `Andy Warhol Monroe ${i}`,
+        genre: 'pop',
+        price: 5000 - i,
+        medium: 'painting',
+      })
+
+      //NEW ASSOCIATIONS IN FOR LOOP
+      await Andy.addProduct(newProduct)
+    }
+
+    //NEW ASSOCIATIONS
+    await User1.addCart(cart1)
+    await Andy.addProduct(Soup)
+    await cart1.addProduct(Soup)
+
+    console.log(`seeded users`)
+    console.log(`seeded successfully`)
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 // We've separated the `seed` function from the `runSeed` function.

@@ -6,20 +6,19 @@ import {fetchProducts} from '../store/products'
  * COMPONENT
  */
 export class AllProducts extends React.Component {
+  constructor() {
+    super()
+  }
   componentDidMount() {
-    try {
-      this.props.loadProducts()
-    } catch (err) {
-      console.error(err.message)
-    }
+    this.props.loadProducts()
   }
 
   render() {
-    console.log(this.props)
+    const firstProd = this.props.products[1] || {}
     return (
       <div>
-        <h3>All Art</h3>
-        {/* <div>{this.props.products[0]}</div> */}
+        <h2>All Art</h2>
+        <h3>{firstProd.title}</h3>
       </div>
     )
   }
@@ -40,4 +39,5 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(AllProducts)
+const AllProductsConnected = connect(mapState, mapDispatch)(AllProducts)
+export default AllProductsConnected

@@ -13,7 +13,7 @@ const defaultProduct = []
 /**
  * ACTION CREATORS
  */
-const getAllProducts = products => ({type: GET_ALL_PRODUCTS, products})
+export const getAllProducts = products => ({type: GET_ALL_PRODUCTS, products})
 
 /**
  * THUNK CREATORS

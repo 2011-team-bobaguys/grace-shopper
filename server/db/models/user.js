@@ -26,6 +26,22 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  fullName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  access: {
+    type: Sequelize.ENUM('admin', 'user'),
+    defaultValue: 'user'
+  },
+  userImageUrl: {
+    type: Sequelize.STRING,
+    defaultValue: 'image.jpg'
   }
 })
 

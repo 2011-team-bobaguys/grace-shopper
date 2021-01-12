@@ -18,7 +18,7 @@ async function seed() {
       email: 'email@email.com',
       password: '12345',
       fullName: 'User One',
-      username: 'firstuser123',
+      username: 'firstuser123'
     })
 
     //NEW ARTISTS
@@ -29,7 +29,7 @@ async function seed() {
       title: `Andy Warhol's Famous Soup`,
       genre: 'pop',
       price: 50000,
-      medium: 'painting',
+      medium: 'painting'
     })
 
     for (let i = 0; i <= 50; i++) {
@@ -37,7 +37,7 @@ async function seed() {
         title: `Andy Warhol Monroe ${i}`,
         genre: 'pop',
         price: 5000 - i,
-        medium: 'painting',
+        medium: 'painting'
       })
 
       //NEW ASSOCIATIONS IN FOR LOOP

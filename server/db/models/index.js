@@ -15,7 +15,7 @@ User.hasMany(Cart)
 Cart.belongsTo(User)
 
 //MANY TO MANY : PRODUCT TO CART
-// Cart.hasMany(Product)
+Cart.belongsToMany(Product, {through: 'Cart_Product'})
 Product.belongsToMany(Cart, {through: 'Cart_Product'})
 
 //ONE TO MANY : ARTIST TO PRODUCT
@@ -29,5 +29,8 @@ Product.belongsTo(Artist)
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User
+  User,
+  Artist,
+  Cart,
+  Product
 }

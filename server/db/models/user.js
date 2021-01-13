@@ -27,21 +27,22 @@ const User = db.define('user', {
   googleId: {
     type: Sequelize.STRING
   },
-  fullName: {
+  firstName: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  username: {
+  lastName: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  access: {
-    type: Sequelize.ENUM('admin', 'user'),
-    defaultValue: 'user'
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   },
-  userImageUrl: {
+  imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'image.jpg'
+    defaultValue:
+      'https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg'
   }
 })
 

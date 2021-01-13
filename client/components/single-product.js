@@ -4,9 +4,11 @@ import {fetchProduct} from '../store/singleProduct'
 import {
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   CardMedia,
-  Typography
+  Typography,
+  Button
 } from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 
@@ -21,34 +23,11 @@ const useStyles = makeStyles({
 
 //SAMPLE IMAGES - DELETE LATER
 
-const artImageDefault =
+const artImagePlaceHolder =
   'https://upload.wikimedia.org/wikipedia/commons/7/7a/Campbell%27Soup_%281965%29_Andy_Warhol_%281928-1967%29_%2849982308446%29.jpg'
 
-const artistImageDefault =
+const artistImagePlaceHolder =
   'https://upload.wikimedia.org/wikipedia/commons/2/2b/Andy_Warhol_by_Jack_Mitchell.jpg'
-
-// function SingleProductCard() {
-//   const classes = useStyles
-//   return (
-//     <Card className={classes.root}>
-//       <CardActionArea>
-//         <CardMedia
-//           className={classes.media}
-//           img={artImageDefault}
-//           title="Artwork"
-//         />
-//         <CardContent>
-//           <Typography variant="h6" component="h3">
-//             Artist
-//           </Typography>
-//           <Typography variant="body2" color="textSecondary" component="p">
-//             Info about artist here
-//           </Typography>
-//         </CardContent>
-//       </CardActionArea>
-//     </Card>
-//   )
-// }
 
 /**
  * COMPONENT
@@ -57,9 +36,6 @@ const artistImageDefault =
 export class SingleProduct extends React.Component {
   constructor() {
     super()
-    // this.state = {
-    //   image: artImageDefault
-    // }
   }
   componentDidMount() {
     try {
@@ -72,8 +48,8 @@ export class SingleProduct extends React.Component {
   render() {
     const product = this.props.product || {}
     let artist = 'Unknown'
-    const artistImage = artistImageDefault
-    const artImage = artImageDefault
+    const artistImage = artistImagePlaceHolder
+    const artImage = artImagePlaceHolder
     if (product.artist) artist = product.artist.name
     const classes = useStyles
 
@@ -89,20 +65,27 @@ export class SingleProduct extends React.Component {
         <h3>Medium</h3>
         <h3>{product.medium}</h3>
         <img src={artImage} /> */}
-        <Card>
+
+        <Card className={classes.root}>
           <CardActionArea>
             <CardContent>
-              <CardMedia>
-                <img src={artImage} />
+              <CardMedia className={classes.media}>
+                <img src={artImage} width="300" />
               </CardMedia>
               <Typography variant="h6" component="h3">
-                Artist
+                {product.title}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                Info about artist here
+                {`${product.title} was created by ${artist}. This piece is a ${
+                  product.medium
+                } and was created during the ${product.genre} movement.`}
               </Typography>
             </CardContent>
           </CardActionArea>
+          <CardActions>
+            <Button>Share</Button>
+            <Button>Buy</Button>
+          </CardActions>
         </Card>
       </div>
     )

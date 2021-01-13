@@ -20,13 +20,23 @@ export class SingleProduct extends React.Component {
 
   render() {
     const product = this.props.product || {}
-    console.log('PRODUCT:', product)
-    console.log('PROPS:', this.props)
+    // console.log('PRODUCT:', product)
+    // console.log('PROPS:', this.props)
+    console.log('ARTIST', product.artist)
+    let artist = 'Unknown'
+    if (product.artist) artist = product.artist.name
     return (
       <div>
-        <h2>Single Product</h2>
         <h2>Title: </h2>
         <h2>{product.title}</h2>
+        <h3>Artist</h3>
+        <h3>ARTIST IMAGE</h3>
+        <h3>{artist}</h3>
+        <h3>Genre</h3>
+        <h3>{product.genre}</h3>
+        <h3>Medium</h3>
+        <h3>{product.medium}</h3>
+        <h3>IMAGE PLACEHOLDER</h3>
       </div>
     )
   }

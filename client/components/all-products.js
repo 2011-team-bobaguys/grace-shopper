@@ -18,7 +18,9 @@ export class AllProducts extends React.Component {
     return (
       <div>
         <h2>All Art</h2>
-        <h3>{firstProd.title}</h3>
+        <div>
+          {this.props.products.map(product => <h4>{product.title}</h4>)}
+        </div>
       </div>
     )
   }

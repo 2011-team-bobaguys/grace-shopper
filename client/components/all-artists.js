@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchProducts} from '../store/products'
+import {fetchArtists} from '../store/artists'
 import {
   Card,
   CardActionArea,
@@ -25,49 +25,49 @@ const useStyles = makeStyles({
 /**
  * COMPONENT
  */
-export class AllProducts extends React.Component {
+export class AllArtists extends React.Component {
   constructor() {
     super()
   }
   componentDidMount() {
-    this.props.loadProducts()
+    this.props.loadArtists()
   }
 
   render() {
     const classes = useStyles
+    console.log('PROPS', this.props)
     return (
       <div>
-        <h2>All Art</h2>
+        <h2>All Artists</h2>
         <div>
-          {this.props.products.map(product => (
-            <div key={product.id}>
+          {this.props.artists.map(artist => (
+            <div key={artist.id}>
               <Card className={classes.root}>
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
                     component="img"
-                    image={product.imageUrl}
+                    image={artist.imageUrl}
                     title="art"
                   />
 
                   <CardContent>
                     <Typography variant="h6" component="h3">
-                      {product.title}
+                      {artist.name}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      {`By ${product.Artist.name}`}
+                      {`Info about ${artist.name}`}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <Button component={Link} to={`/products/${product.id}`}>
+                  <Button component={Link} to={`/artists/${artist.id}`}>
                     View
                   </Button>
-                  <Button>Buy</Button>
                 </CardActions>
               </Card>
             </div>
@@ -83,15 +83,15 @@ export class AllProducts extends React.Component {
  */
 const mapState = state => {
   return {
-    products: state.products
+    artists: state.artists
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    loadProducts: () => dispatch(fetchProducts())
+    loadArtists: () => dispatch(fetchArtists())
   }
 }
 
-const AllProductsConnected = connect(mapState, mapDispatch)(AllProducts)
-export default AllProductsConnected
+const AllArtistsConnected = connect(mapState, mapDispatch)(AllArtists)
+export default AllArtistsConnected

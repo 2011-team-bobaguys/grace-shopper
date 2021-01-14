@@ -13,3 +13,15 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+// GET /api/artists/:artistId
+router.get('/:artistId', async (req, res, next) => {
+  try {
+    const artist = await Artist.findByPk(req.params.artistId, {
+      include: Product
+    })
+    res.json(artist)
+  } catch (err) {
+    next(err)
+  }
+})

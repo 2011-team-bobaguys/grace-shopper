@@ -7,7 +7,9 @@ import {
   Signup,
   UserHome,
   AllProductsConnected,
-  SingleProductConnected
+  SingleProductConnected,
+  AllArtistsConnected,
+  SingleArtistConnected
 } from './components'
 import {me} from './store'
 import AllUserCarts from './components/carts'
@@ -31,6 +33,12 @@ class Routes extends Component {
           exact
           path="/products/:productId"
           component={SingleProductConnected}
+        />
+        <Route exact path="/artists" component={AllArtistsConnected} />
+        <Route
+          exact
+          path="/artists/:artistId"
+          component={SingleArtistConnected}
         />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />

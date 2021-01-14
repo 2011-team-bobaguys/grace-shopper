@@ -30,7 +30,7 @@ export class AllCarts extends React.Component {
               </div>
             )
           })}
-        <small>.............................</small>
+        <small>...........................................</small>
         <h4>
           Subtotal:
           {this.props.user.carts

@@ -18,8 +18,19 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+// PUT /api/users/:userId
+router.put('/:userId', isAdminCheck, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userId)
+    await user.update(req.body)
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
+})
+
 // DELETE /api/users/:userId
-router.delete('./:userId', isAdminCheck, async (req, res, next) => {
+router.delete('/:userId', isAdminCheck, async (req, res, next) => {
   try {
     await User.destroy({
       where: {

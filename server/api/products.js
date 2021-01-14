@@ -28,7 +28,7 @@ router.get('/:productId', async (req, res, next) => {
 })
 
 // POST /api/products
-router.post('/', async (req, res, next) => {
+router.post('/', isAdminCheck, async (req, res, next) => {
   try {
     const product = await Product.create(req.body)
     res.json(product)
@@ -37,8 +37,19 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+// PUT /api/products/:productId
+router.put('/:productId', isAdminCheck, async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.productId)
+    await product.update(req.body)
+    res.json(product)
+  } catch (err) {
+    next(err)
+  }
+})
+
 // DELETE /api/products/:productId
-router.delete('./:productId', isAdminCheck, async (req, res, next) => {
+router.delete('/:productId', isAdminCheck, async (req, res, next) => {
   try {
     await Artist.destroy({
       where: {id: req.params.productId}

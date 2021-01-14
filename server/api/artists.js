@@ -28,9 +28,20 @@ router.get('/:artistId', async (req, res, next) => {
 })
 
 // POST /api/artists
-router.post('/', async (req, res, next) => {
+router.post('/', isAdminCheck, async (req, res, next) => {
   try {
     const artist = await Artist.create(req.body)
+    res.json(artist)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// PUT /api/artists/:artistId
+router.put('/:arIistd', isAdminCheck, async (req, res, next) => {
+  try {
+    const artist = await Artist.findByPk(req.params.artistId)
+    await artist.update(req.body)
     res.json(artist)
   } catch (err) {
     next(err)

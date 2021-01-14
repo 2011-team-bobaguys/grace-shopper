@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchProducts} from '../store/products'
+import {fetchProducts, fetchDeleteProduct} from '../store/products'
 import {
   Card,
   CardActionArea,
@@ -28,13 +28,21 @@ const useStyles = makeStyles({
 export class AllProducts extends React.Component {
   constructor() {
     super()
+    this.handleDelete = this.handleDelete.bind(this)
   }
   componentDidMount() {
     this.props.loadProducts()
   }
 
+  handleDelete(productToDelete) {
+    this.props.loadDeleteProduct(productToDelete)
+    console.log('DELETED')
+  }
+
   render() {
     const classes = useStyles
+    const user = this.props.user
+    console.log('USER', this.props.user)
     return (
       <div>
         <h2>All Art</h2>
@@ -54,12 +62,29 @@ export class AllProducts extends React.Component {
                     <Typography variant="h6" component="h3">
                       {product.title}
                     </Typography>
+                    {product.Artist ? (
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                      >
+                        {`By ${product.Artist.name} (${product.year})`}
+                      </Typography>
+                    ) : (
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                      >
+                        {`By unknown artist (${product.year})`}
+                      </Typography>
+                    )}
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      {`By ${product.Artist.name}`}
+                      {`$${(product.price / 100).toLocaleString('en-US')}`}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
@@ -68,6 +93,13 @@ export class AllProducts extends React.Component {
                     View
                   </Button>
                   <Button>Buy</Button>
+                  {user.isAdmin ? (
+                    <Button onClick={() => this.handleDelete(product.id)}>
+                      Delete
+                    </Button>
+                  ) : (
+                    ''
+                  )}
                 </CardActions>
               </Card>
             </div>
@@ -83,13 +115,15 @@ export class AllProducts extends React.Component {
  */
 const mapState = state => {
   return {
-    products: state.products
+    products: state.products,
+    user: state.user
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    loadProducts: () => dispatch(fetchProducts())
+    loadProducts: () => dispatch(fetchProducts()),
+    loadDeleteProduct: productId => dispatch(fetchDeleteProduct(productId))
   }
 }
 

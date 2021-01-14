@@ -36,7 +36,6 @@ export class AllArtists extends React.Component {
 
   handleDelete(artistToDelete) {
     this.props.loadDeleteArtist(artistToDelete)
-    console.log('DELETED')
   }
 
   render() {

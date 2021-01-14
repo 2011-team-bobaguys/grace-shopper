@@ -1,56 +1,146 @@
 'use strict'
-
+const {create} = require('react-test-renderer')
 const db = require('../server/db')
 const {User, Artist, Cart, Product} = require('../server/db/models')
+
+// MODELS
+
+const allModels = [Product, Artist, User, Cart]
+
+// DUMMY DATA
+
+const dummyData = [
+  {
+    products: [
+      {
+        title: "Campbell's Soup Cans 1",
+        movement: 'Pop art',
+        medium: 'Paint on canvas',
+        year: 1962,
+        price: 5000000
+      },
+      {
+        title: "Campbell's Soup Cans 2",
+        movement: 'Pop art',
+        medium: 'Paint on canvas',
+        year: 1962,
+        price: 5000000
+      },
+      {
+        title: "Campbell's Soup Cans 3",
+        movement: 'Pop art',
+        medium: 'Paint on canvas',
+        year: 1962,
+        price: 5000000
+      },
+      {
+        title: "Campbell's Soup Cans 4",
+        movement: 'Pop art',
+        medium: 'Paint on canvas',
+        year: 1962,
+        price: 5000000
+      },
+      {
+        title: "Campbell's Soup Cans 4",
+        movement: 'Pop art',
+        medium: 'Paint on canvas',
+        year: 1962,
+        price: 5000000
+      }
+    ]
+  },
+  {
+    artists: [
+      {
+        name: 'Andy Warhol'
+      },
+      {
+        name: 'Salvador Dali'
+      },
+      {
+        name: 'Frida Kahlo'
+      }
+    ]
+  },
+  {
+    users: [
+      {
+        email: 'email@email.com',
+        password: '12345',
+        firstName: 'User',
+        lastName: 'One'
+      },
+      {
+        email: 'ginger@pup.com',
+        password: 'password',
+        firstName: 'Ginger',
+        lastName: 'Dogglet'
+      }
+    ]
+  },
+  {
+    carts: [{}, {active: false, purchaseDate: new Date()}]
+  }
+]
+
+// CREATE DUMMY INSTANCES
+
+const createInstances = async (modelList, modelName) => {
+  try {
+    await Promise.all(
+      modelList.map(model => {
+        return modelName.create(model)
+      })
+    )
+  } catch (err) {
+    console.error(err.message)
+  }
+}
+
+// MAKE ASSOCIATIONS
+
+const addAssociations = async () => {
+  try {
+    const existingUsers = await User.findAll()
+    const existingCarts = await Cart.findAll()
+    const existingProducts = await Product.findAll()
+    const existingArtists = await Artist.findAll()
+
+    // associate users with carts
+    for (let i = 0; i < existingUsers.length; i++) {
+      await existingUsers[i].addCart(existingCarts[i])
+    }
+
+    // associate products with carts
+    for (let i = 0; i < existingProducts.length; i++) {
+      let j = i % existingCarts.length // idx for cart
+      await existingProducts[i].addCart(existingCarts[j])
+    }
+
+    // associate artists with products
+    for (let i = 0; i < existingProducts.length; i++) {
+      let j = i % existingArtists.length // idx for artist
+      await existingArtists[j].addProduct(existingProducts[i])
+    }
+  } catch (err) {
+    console.error(err.message)
+  }
+}
 
 async function seed() {
   try {
     await db.sync({force: true})
     console.log('db synced!')
 
-    //DEFINITIONS
-
-    //NEW CARTS
-    const cart1 = await Cart.create()
-
-    //NEW USERS
-    const User1 = await User.create({
-      email: 'email@email.com',
-      password: '12345',
-      firstName: 'User',
-      lastName: 'One'
-    })
-
-    //NEW ARTISTS
-    const Andy = await Artist.create({name: 'Andy Warhol'})
-
-    //NEW PRODUCTS
-    const Soup = await Product.create({
-      title: `Andy Warhol's Famous Soup`,
-      genre: 'pop',
-      price: 50000,
-      medium: 'painting'
-    })
-
-    for (let i = 0; i <= 50; i++) {
-      let newProduct = await Product.create({
-        title: `Andy Warhol Monroe ${i}`,
-        genre: 'pop',
-        price: 5000 - i,
-        medium: 'painting'
-      })
-
-      //NEW ASSOCIATIONS IN FOR LOOP
-      await Andy.addProduct(newProduct)
+    for (let i = 0; i < dummyData.length; i++) {
+      let modelList = Object.values(dummyData[i])[0]
+      let modelName = allModels[i]
+      await createInstances(modelList, modelName)
     }
 
-    //NEW ASSOCIATIONS
-    await User1.addCart(cart1)
-    await Andy.addProduct(Soup)
-    await cart1.addProduct(Soup)
+    await addAssociations()
 
-    console.log(`seeded users`)
-    console.log(`seeded successfully`)
+    console.log('seeded successfully')
   } catch (err) {
     console.log(err)
   }

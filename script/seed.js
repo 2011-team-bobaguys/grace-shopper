@@ -74,7 +74,8 @@ const dummyData = [
         email: 'ginger@pup.com',
         password: 'password',
         firstName: 'Ginger',
-        lastName: 'Dogglet'
+        lastName: 'Dogglet',
+        isAdmin: true
       }
     ]
   },

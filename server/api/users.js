@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
+const {isAdminCheck} = require('./isAdmin')
 module.exports = router
 
 // GET /api/users
@@ -12,6 +13,20 @@ router.get('/', async (req, res, next) => {
       attributes: ['id', 'email']
     })
     res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// DELETE /api/users/:userId
+router.delete('./:userId', isAdminCheck, async (req, res, next) => {
+  try {
+    await User.destroy({
+      where: {
+        id: req.params.userId
+      }
+    })
+    res.sendStatus(204)
   } catch (err) {
     next(err)
   }

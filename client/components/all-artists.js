@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchArtists} from '../store/artists'
+import {fetchArtists, fetchDeleteArtist} from '../store/artists'
 import {
   Card,
   CardActionArea,
@@ -28,9 +28,15 @@ const useStyles = makeStyles({
 export class AllArtists extends React.Component {
   constructor() {
     super()
+    this.handleDelete = this.handleDelete.bind(this)
   }
   componentDidMount() {
     this.props.loadArtists()
+  }
+
+  handleDelete(artistToDelete) {
+    this.props.loadDeleteArtist(artistToDelete)
+    console.log('DELETED')
   }
 
   render() {
@@ -68,6 +74,9 @@ export class AllArtists extends React.Component {
                   <Button component={Link} to={`/artists/${artist.id}`}>
                     View
                   </Button>
+                  <Button onClick={() => this.handleDelete(artist.id)}>
+                    Delete
+                  </Button>
                 </CardActions>
               </Card>
             </div>
@@ -89,7 +98,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadArtists: () => dispatch(fetchArtists())
+    loadArtists: () => dispatch(fetchArtists()),
+    loadDeleteArtist: artistId => dispatch(fetchDeleteArtist(artistId))
   }
 }
 

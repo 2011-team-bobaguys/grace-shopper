@@ -11,13 +11,14 @@ import {
   Button
 } from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
+import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 50
+    maxWidth: 300
   },
   media: {
-    height: 10
+    height: 300
   }
 })
 
@@ -42,9 +43,14 @@ export class AllProducts extends React.Component {
             <div key={product.id}>
               <Card className={classes.root}>
                 <CardActionArea>
-                  <CardMedia>
+                  {/* <CardMedia>
                     <img src={product.imageUrl} />
-                  </CardMedia>
+                  </CardMedia> */}
+                  <CardMedia
+                    className={classes.media}
+                    image="https://upload.wikimedia.org/wikipedia/commons/7/7a/Campbell%27Soup_%281965%29_Andy_Warhol_%281928-1967%29_%2849982308446%29.jpg"
+                    title="art"
+                  />
                   <CardContent>
                     <Typography variant="h6" component="h3">
                       {product.title}
@@ -59,7 +65,9 @@ export class AllProducts extends React.Component {
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <Button>View</Button>
+                  <Button component={Link} to={`/products/${product.id}`}>
+                    View
+                  </Button>
                   <Button>Buy</Button>
                 </CardActions>
               </Card>

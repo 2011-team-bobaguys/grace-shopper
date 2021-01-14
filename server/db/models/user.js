@@ -2,11 +2,14 @@ const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const User = db.define('user', {
+const User = db.define('User', {
   email: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      isEmail: true
+    }
   },
   password: {
     type: Sequelize.STRING,
@@ -27,21 +30,21 @@ const User = db.define('user', {
   googleId: {
     type: Sequelize.STRING
   },
-  fullName: {
+  firstName: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  username: {
+  lastName: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  access: {
-    type: Sequelize.ENUM('admin', 'user'),
-    defaultValue: 'user'
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   },
-  userImageUrl: {
+  imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'image.jpg'
+    defaultValue: '/user.png'
   }
 })
 

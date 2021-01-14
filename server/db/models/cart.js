@@ -1,14 +1,13 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Cart = db.define('cart', {
+const Cart = db.define('Cart', {
   active: {
     type: Sequelize.BOOLEAN,
     defaultValue: true
   },
   purchaseDate: {
-    type: Sequelize.DATE,
-    defaultValue: null
+    type: Sequelize.DATE
   }
 })
 

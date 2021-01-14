@@ -19,7 +19,9 @@ export class AllProducts extends React.Component {
       <div>
         <h2>All Art</h2>
         <div>
-          {this.props.products.map(product => <h4>{product.title}</h4>)}
+          {this.props.products.map(product => (
+            <h4 key={product.id}>{product.title}</h4>
+          ))}
         </div>
       </div>
     )

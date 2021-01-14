@@ -40,7 +40,8 @@ export class AllArtists extends React.Component {
 
   render() {
     const classes = useStyles
-    console.log('PROPS', this.props)
+    const user = this.props.user
+    // console.log('PROPS', this.props)
     return (
       <div>
         <h2>All Artists</h2>
@@ -73,9 +74,13 @@ export class AllArtists extends React.Component {
                   <Button component={Link} to={`/artists/${artist.id}`}>
                     View
                   </Button>
-                  <Button onClick={() => this.handleDelete(artist.id)}>
-                    Delete
-                  </Button>
+                  {user.isAdmin ? (
+                    <Button onClick={() => this.handleDelete(artist.id)}>
+                      Delete
+                    </Button>
+                  ) : (
+                    ''
+                  )}
                 </CardActions>
               </Card>
             </div>
@@ -91,7 +96,8 @@ export class AllArtists extends React.Component {
  */
 const mapState = state => {
   return {
-    artists: state.artists
+    artists: state.artists,
+    user: state.user
   }
 }
 

@@ -38,7 +38,7 @@ router.post('/', isAdminCheck, async (req, res, next) => {
 })
 
 // PUT /api/artists/:artistId
-router.put('/:arIistd', isAdminCheck, async (req, res, next) => {
+router.put('/:artistId', isAdminCheck, async (req, res, next) => {
   try {
     const artist = await Artist.findByPk(req.params.artistId)
     await artist.update(req.body)

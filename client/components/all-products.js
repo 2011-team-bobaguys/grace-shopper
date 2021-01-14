@@ -42,7 +42,7 @@ export class AllProducts extends React.Component {
   render() {
     const classes = useStyles
     const user = this.props.user
-    console.log('USER', this.props.user)
+    // console.log('USER', this.props.user)
     return (
       <div>
         <h2>All Art</h2>
@@ -50,7 +50,7 @@ export class AllProducts extends React.Component {
           {this.props.products.map(product => (
             <div key={product.id}>
               <Card className={classes.root}>
-                <CardActionArea>
+                <CardActionArea id="artImgContainer">
                   <CardMedia
                     className={classes.media}
                     component="img"

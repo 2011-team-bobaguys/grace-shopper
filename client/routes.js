@@ -12,6 +12,7 @@ import {
   SingleArtistConnected
 } from './components'
 import {me} from './store'
+import AllUserCarts from './components/carts'
 
 /**
  * COMPONENT
@@ -44,6 +45,7 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
+            <Route path="/cart" component={AllUserCarts} />
             <Route path="/home" component={UserHome} />
           </Switch>
         )}

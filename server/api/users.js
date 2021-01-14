@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, Cart, Product, CartProduct} = require('../db/models')
+const {isAdminCheck} = require('./isAdmin')
 module.exports = router
 
 // GET /api/users
@@ -12,6 +13,47 @@ router.get('/', async (req, res, next) => {
       attributes: ['id', 'email']
     })
     res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// GET /api/users/userId/cart
+
+router.get('/:userId/cart', async (req, res, next) => {
+  try {
+    const carts = await Cart.findAll({
+      where: {
+        UserId: req.params.userId
+      },
+      include: Product
+    })
+    res.json(carts)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// PUT /api/users/:userId
+router.put('/:userId', isAdminCheck, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userId)
+    await user.update(req.body)
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// DELETE /api/users/:userId
+router.delete('/:userId', isAdminCheck, async (req, res, next) => {
+  try {
+    await User.destroy({
+      where: {
+        id: req.params.userId
+      }
+    })
+    res.sendStatus(204)
   } catch (err) {
     next(err)
   }

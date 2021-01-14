@@ -28,6 +28,7 @@ export class SingleProduct extends React.Component {
   constructor() {
     super()
   }
+
   componentDidMount() {
     try {
       this.props.loadProduct(this.props.match.params.productId)
@@ -38,11 +39,11 @@ export class SingleProduct extends React.Component {
 
   render() {
     const product = this.props.product || {}
-    let artist = 'Unknown'
+    let artistName = 'Unknown'
     let artistImage = artistImagePlaceHolder
     let artImage = product.imageUrl || artImagePlaceHolder
     if (product.Artist) {
-      artist = product.Artist.name
+      artistName = product.Artist.name
       artistImage = product.Artist.imageUrl
     }
     return (
@@ -62,7 +63,7 @@ export class SingleProduct extends React.Component {
                   <img src={artistImage} />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary="Andy Warhol" />
+              <ListItemText primary={`${artistName}`} />
             </ListItem>
           </List>
           <Button>Share</Button>

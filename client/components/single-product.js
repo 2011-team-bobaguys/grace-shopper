@@ -2,24 +2,15 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchProduct} from '../store/singleProduct'
 import {
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
+  Paper,
+  List,
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
   Typography,
   Button
 } from '@material-ui/core'
-import {makeStyles} from '@material-ui/core/styles'
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 50
-  },
-  media: {
-    height: 10
-  }
-})
 
 //SAMPLE IMAGES - DELETE LATER
 
@@ -37,6 +28,7 @@ export class SingleProduct extends React.Component {
   constructor() {
     super()
   }
+
   componentDidMount() {
     try {
       this.props.loadProduct(this.props.match.params.productId)
@@ -47,46 +39,36 @@ export class SingleProduct extends React.Component {
 
   render() {
     const product = this.props.product || {}
-    let artist = 'Unknown'
-    const artistImage = artistImagePlaceHolder
-    const artImage = artImagePlaceHolder
-    if (product.artist) artist = product.artist.name
-    const classes = useStyles
-
+    let artistName = 'Unknown'
+    let artistImage = artistImagePlaceHolder
+    let artImage = product.imageUrl || artImagePlaceHolder
+    if (product.Artist) {
+      artistName = product.Artist.name
+      artistImage = product.Artist.imageUrl
+    }
     return (
       <div>
-        {/* <h2>Title: </h2>
-        <h2>{product.title}</h2>
-        <h3>Artist</h3>
-        <img src={artistImage} />
-        <h3>{artist}</h3>
-        <h3>Genre</h3>
-        <h3>{product.genre}</h3>
-        <h3>Medium</h3>
-        <h3>{product.medium}</h3>
-        <img src={artImage} /> */}
-
-        <Card className={classes.root}>
-          <CardActionArea>
-            <CardContent>
-              <CardMedia className={classes.media}>
-                <img src={artImage} width="300" />
-              </CardMedia>
-              <Typography variant="h6" component="h3">
-                {product.title}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {`${product.title} was created by ${artist}. This piece is a ${
-                  product.medium
-                } and was created during the ${product.genre} movement.`}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions>
-            <Button>Share</Button>
-            <Button>Buy</Button>
-          </CardActions>
-        </Card>
+        <Paper>
+          <img src={artImage} width="300" />
+          <Typography variant="h6" component="h3">
+            {product.title}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {`${product.medium}`}
+          </Typography>
+          <List>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <img src={artistImage} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={`${artistName}`} />
+            </ListItem>
+          </List>
+          <Button>Share</Button>
+          <Button>Buy</Button>
+        </Paper>
       </div>
     )
   }

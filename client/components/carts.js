@@ -11,14 +11,16 @@ export class AllCarts extends React.Component {
   }
 
   render() {
+    let activeCart = ''
+    if (this.props.user.carts) {
+      activeCart = this.props.user.carts.filter(cart => {
+        return cart.active === true
+      })[0]
+    }
     return (
       <div>
         <h2>All My Carts</h2>
-        <div>
-          {/* {this.props.products.map(product => (
-              <h4 key={product.id}>{product.title}</h4>
-            ))} */}
-        </div>
+        <h1>{activeCart.id}</h1>
       </div>
     )
   }

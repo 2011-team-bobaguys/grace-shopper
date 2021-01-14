@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
 
 // GET /api/users/userId/cart
 
-router.get('/:userId/carts', async (req, res, next) => {
+router.get('/:userId/cart', async (req, res, next) => {
   try {
     const carts = await Cart.findAll({
       where: {

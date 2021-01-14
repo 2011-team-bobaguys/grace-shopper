@@ -7,7 +7,8 @@ import {
   Signup,
   UserHome,
   AllProductsConnected,
-  SingleProductConnected
+  SingleProductConnected,
+  AllArtistsConnected
 } from './components'
 import {me} from './store'
 
@@ -31,6 +32,7 @@ class Routes extends Component {
           path="/products/:productId"
           component={SingleProductConnected}
         />
+        <Route exact path="/artists" component={AllArtistsConnected} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {isLoggedIn && (

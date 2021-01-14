@@ -1,27 +1,69 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Product = db.define('product', {
+// MOVEMENTS
+
+const DADA = 'Dada'
+const ABSTRACT_EXPRESSIONISM = 'Abstract Expressionism'
+const EXPRESSIONISM = 'Expressionism'
+const SURREALISM = 'Surrealism'
+const POP_ART = 'Pop art'
+const FUTURISM = 'Futurism'
+
+// MEDIUMS
+
+const OIL_ON_CANVAS = 'Oil on canvas'
+const PHOTOGRAPH = 'Photograph'
+const GRAPHITE_ON_PAPER = 'Graphite on paper'
+const FOUND_OBJECT = 'Found object'
+const PAINT_ON_CANVAS = 'Paint on canvas'
+
+const Product = db.define('Product', {
   title: {
     type: Sequelize.STRING
   },
-  genre: {
-    type: Sequelize.ENUM('modern', 'contemporary', 'impressionist', 'pop')
+  movement: {
+    type: Sequelize.ENUM(
+      DADA,
+      ABSTRACT_EXPRESSIONISM,
+      EXPRESSIONISM,
+      SURREALISM,
+      POP_ART,
+      FUTURISM
+    )
   },
   medium: {
-    type: Sequelize.ENUM('photograph', 'sculpture', 'painting', 'drawing')
+    type: Sequelize.ENUM(
+      OIL_ON_CANVAS,
+      PHOTOGRAPH,
+      GRAPHITE_ON_PAPER,
+      FOUND_OBJECT,
+      PAINT_ON_CANVAS
+    )
   },
-  artImageUrl: {
+  imageUrl: {
     type: Sequelize.STRING,
-    default:
-      'https://www.christies.com/img/LotImages/2010/NYR/2010_NYR_02355_0012_000(andy_warhol_campbells_soup_can103047).jpg'
+    defaultValue: '/soup.jpg'
   },
-  yearCreated: {
-    type: Sequelize.INTEGER
+  year: {
+    type: Sequelize.INTEGER,
+    validate: {
+      max: new Date().getFullYear(),
+      min: 0
+    }
   },
   price: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER, // in cents
+    validate: {
+      min: 0
+    }
   }
 })
+
+// methods for money conversions
+
+Product.prototype.toDollars = () => {
+  return this.price / 100
+}
 
 module.exports = Product

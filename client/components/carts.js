@@ -19,8 +19,26 @@ export class AllCarts extends React.Component {
     }
     return (
       <div>
-        <h2>All My Carts</h2>
-        <h1>{activeCart.id}</h1>
+        <h2>My Active Cart</h2>
+        {this.props.user.carts &&
+          activeCart.Products.map(product => {
+            return (
+              <div key={product.id}>
+                <h3>{product.title}</h3>
+                <h4>Price:{product.price}</h4>
+                <p>Quantity:{product.CartProduct.quantity}</p>
+              </div>
+            )
+          })}
+        <small>.............................</small>
+        <h4>
+          Subtotal:
+          {this.props.user.carts
+            ? activeCart.Products.reduce((accum, singleProduct) => {
+                return accum + singleProduct.price * 1 //needs to be quantity
+              }, 0)
+            : ' '}
+        </h4>
       </div>
     )
   }

@@ -1,14 +1,13 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Artist = db.define('artist', {
+const Artist = db.define('Artist', {
   name: {
     type: Sequelize.STRING
   },
-  artistImageUrl: {
+  imageUrl: {
     type: Sequelize.STRING,
-    default:
-      'https://upload.wikimedia.org/wikipedia/commons/4/42/Andy_Warhol_1975.jpg'
+    defaultValue: '/artist.jpg'
   }
 })
 

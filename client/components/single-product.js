@@ -54,7 +54,10 @@ export class SingleProduct extends React.Component {
             {product.title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {`${product.medium}`}
+            {`${product.medium} (${product.year})`}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {`$${(product.price / 100).toLocaleString('en-US')}`}
           </Typography>
           <List>
             <ListItem>

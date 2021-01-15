@@ -57,10 +57,21 @@ const Product = db.define('Product', {
     validate: {
       min: 0
     }
+  },
+  inventory: {
+    type: Sequelize.INTEGER,
+    defaultValue: 100,
+    validate: {
+      min: 0
+    }
   }
 })
 
 // methods for money conversions
+
+Product.prototype.checkout = function(product, purchaseAmt) {
+  this.quantity -= purchaseAmt
+}
 
 Product.prototype.toDollars = () => {
   return this.price / 100

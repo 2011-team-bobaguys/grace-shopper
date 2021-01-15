@@ -1,7 +1,16 @@
-const router = require('express').Router()
+const express = require('express')
+const app = express()
+const router = express.Router()
 const {User, Cart, Product, CartProduct} = require('../db/models')
 const {isAdminCheck} = require('./isAdmin')
 module.exports = router
+
+// cart route -- not working
+// app.use('/:userId/cart', require('./cart'))
+
+/**
+ * 	USER ROUTES
+ *  */
 
 // GET /api/users
 router.get('/', async (req, res, next) => {
@@ -13,22 +22,6 @@ router.get('/', async (req, res, next) => {
       attributes: ['id', 'email']
     })
     res.json(users)
-  } catch (err) {
-    next(err)
-  }
-})
-
-// GET /api/users/userId/cart
-
-router.get('/:userId/cart', async (req, res, next) => {
-  try {
-    const carts = await Cart.findAll({
-      where: {
-        UserId: req.params.userId
-      },
-      include: Product
-    })
-    res.json(carts)
   } catch (err) {
     next(err)
   }
@@ -58,3 +51,86 @@ router.delete('/:userId', isAdminCheck, async (req, res, next) => {
     next(err)
   }
 })
+
+/**
+ * 	CART ROUTES
+ *  */
+
+// GET /api/users/:userId/cart -- GET CART
+router.get('/:userId/cart', async (req, res, next) => {
+  try {
+    const carts = await Cart.findAll({
+      where: {
+        UserId: req.params.userId
+      },
+      include: Product
+    })
+    res.json(carts)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// PUT /api/users/:userId/cart/add/:productId -- ADD ITEM TO CART
+router.put('/:userId/cart/add/:productId', async (req, res, next) => {
+  try {
+    const cart = await Cart.findOne({
+      where: {
+        UserId: req.params.userId,
+        active: true
+      }
+    })
+    const product = await Product.findByPk(req.params.productId)
+    await cart.addProduct(product)
+    // TODO: INCREASE QUANTITY IF ITEM IS ALREADY IN CART
+    res.json(cart)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//PUT/ api/user/:userId/cart/delete/:productId -- REMOVE ITEM FROM CART
+router.put('/:userId/cart/delete/:productId', async (req, res, next) => {
+  try {
+    const cart = await Cart.findOne({
+      where: {
+        UserId: req.params.userId,
+        active: true
+      }
+    })
+    const product = await Product.findByPk(req.params.productId)
+    await cart.removeProduct(product)
+    res.json(cart)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// localhost:8080/api/users/2/cart/remove/1
+
+/*
+		http://localhost:8080/api/users/1/cart/add/2
+
+	req.params = {
+		userId: 1,
+		productId: 1 } 
+	*/
+
+/* 
+
+cart possibilities
+
+add to cart: 
+PUT /api/users/:userId/cart/add/:productId
+	- lets us access user's cart and the product they want to add
+
+delete from cart: 
+PUT /api/users/:userId/cart/delete/:productId
+
+decreasing quantity from 1 to 0 is the same as deleting
+
+edit cart item quantity:
+PUT /api/users/:userId/cart/
+
+
+*/

@@ -1,5 +1,4 @@
 'use strict'
-const {create} = require('react-test-renderer')
 const db = require('../server/db')
 const {User, Artist, Cart, Product} = require('../server/db/models')
 

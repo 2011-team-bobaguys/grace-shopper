@@ -18,7 +18,7 @@ export class AllCarts extends React.Component {
       })[0]
     }
 
-    if (activeCart === '' || !activeCart) {
+    if (activeCart === '' || !activeCart || activeCart.Products.length === 0) {
       return (
         <div>
           <h3>Your cart is empty right now! Go shopping!</h3>

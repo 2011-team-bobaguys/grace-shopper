@@ -1,10 +1,16 @@
 'use strict'
 const db = require('../server/db')
-const {User, Artist, Cart, Product} = require('../server/db/models')
+const {
+  User,
+  Artist,
+  Cart,
+  Product,
+  CartProduct
+} = require('../server/db/models')
 
 // MODELS
 
-const allModels = [Product, Artist, User, Cart]
+const allModels = [Product, Artist, User, Cart, CartProduct]
 
 // DUMMY DATA
 
@@ -80,6 +86,15 @@ const dummyData = [
   },
   {
     carts: [{}, {active: false, purchaseDate: new Date()}]
+  },
+  {
+    cartProducts: [
+      {quantity: 5, CartId: 1, ProductId: 1},
+      {quantity: 50, CartId: 1, ProductId: 3},
+      {quantity: 25, CartId: 1, ProductId: 5},
+      {quantity: 30, CartId: 2, ProductId: 2},
+      {quantity: 45, CartId: 2, ProductId: 4}
+    ]
   }
 ]
 

@@ -76,30 +76,45 @@ router.put('/:userId/cart/add/:productId', async (req, res, next) => {
   try {
     const cart = await Cart.findOne({
       where: {
-        UserId: req.params.userId
+        UserId: req.params.userId,
+        active: true
       }
     })
-    if (cart.dataValues.active === false) {
-      const err = new Error('Cart has been checked out')
-      return next(err)
-    }
     const product = await Product.findByPk(req.params.productId)
     await cart.addProduct(product)
+    // TODO: INCREASE QUANTITY IF ITEM IS ALREADY IN CART
     res.json(cart)
   } catch (err) {
     next(err)
   }
+})
 
-  // localhost:8080/api/users/2/cart/add/1
+//PUT/ api/user/:userId/cart/delete/:productId -- REMOVE ITEM FROM CART
+router.put('/:userId/cart/delete/:productId', async (req, res, next) => {
+  try {
+    const cart = await Cart.findOne({
+      where: {
+        UserId: req.params.userId,
+        active: true
+      }
+    })
+    const product = await Product.findByPk(req.params.productId)
+    await cart.removeProduct(product)
+    res.json(cart)
+  } catch (err) {
+    next(err)
+  }
+})
 
-  /*
+// localhost:8080/api/users/2/cart/remove/1
+
+/*
 		http://localhost:8080/api/users/1/cart/add/2
 
 	req.params = {
 		userId: 1,
 		productId: 1 } 
 	*/
-})
 
 /* 
 
@@ -111,6 +126,8 @@ PUT /api/users/:userId/cart/add/:productId
 
 delete from cart: 
 PUT /api/users/:userId/cart/delete/:productId
+
+decreasing quantity from 1 to 0 is the same as deleting
 
 edit cart item quantity:
 PUT /api/users/:userId/cart/

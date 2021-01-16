@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import {Link} from 'react-router-dom'
+import {AddShoppingCart, ViewCarousel, Delete} from '@material-ui/icons/'
 
 const useStyles = makeStyles({
   root: {
@@ -49,13 +50,14 @@ export class AllProducts extends React.Component {
         <div>
           {this.props.products.map(product => (
             <div key={product.id}>
-              <Card className={classes.root}>
+              <Card style={{maxWidth: '300px'}} className={classes.root}>
                 <CardActionArea id="artImgContainer">
                   <CardMedia
                     className={classes.media}
-                    component="img"
+                    // component="img"
                     image={product.imageUrl}
-                    title="art"
+                    title={product.title}
+                    style={{height: 1, maxWidth: '300px', paddingTop: '55%'}}
                   />
 
                   <CardContent>
@@ -89,12 +91,19 @@ export class AllProducts extends React.Component {
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <Button component={Link} to={`/products/${product.id}`}>
+                  <Button
+                    component={Link}
+                    to={`/products/${product.id}`}
+                    startIcon={<ViewCarousel />}
+                  >
                     View
                   </Button>
-                  <Button>Buy</Button>
+                  <Button startIcon={<AddShoppingCart />}>Buy</Button>
                   {user.isAdmin ? (
-                    <Button onClick={() => this.handleDelete(product.id)}>
+                    <Button
+                      startIcon={<Delete />}
+                      onClick={() => this.handleDelete(product.id)}
+                    >
                       Delete
                     </Button>
                   ) : (

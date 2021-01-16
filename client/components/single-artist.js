@@ -11,6 +11,7 @@ import {
   Typography,
   Button
 } from '@material-ui/core'
+import {Share} from '@material-ui/icons/'
 
 //SAMPLE IMAGES - DELETE LATER
 
@@ -51,7 +52,7 @@ export class SingleArtist extends React.Component {
           <Typography variant="body2" color="textSecondary" component="p">
             {`Info about ${artist.name}`}
           </Typography>
-          <Button>Share</Button>
+          <Button startIcon={<Share />}>Share</Button>
         </Paper>
       </div>
     )

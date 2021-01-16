@@ -11,6 +11,7 @@ import {
   Typography,
   Button
 } from '@material-ui/core'
+import {Share, AddShoppingCart} from '@material-ui/icons/'
 
 //SAMPLE IMAGES - DELETE LATER
 
@@ -69,8 +70,8 @@ export class SingleProduct extends React.Component {
               <ListItemText primary={`${artistName}`} />
             </ListItem>
           </List>
-          <Button>Share</Button>
-          <Button>Buy</Button>
+          <Button startIcon={<Share />}>Share</Button>
+          <Button startIcon={<AddShoppingCart />}>Buy</Button>
         </Paper>
       </div>
     )

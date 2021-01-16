@@ -12,10 +12,11 @@ import {
 } from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import {Link} from 'react-router-dom'
+import {ViewCarousel, Delete} from '@material-ui/icons/'
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 150
+    maxWidth: '150px'
   },
   media: {
     height: 100
@@ -48,13 +49,14 @@ export class AllArtists extends React.Component {
         <div>
           {this.props.artists.map(artist => (
             <div key={artist.id}>
-              <Card className={classes.root}>
+              <Card style={{maxWidth: '300px'}} className={classes.root}>
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
-                    component="img"
+                    // component="img"
                     image={artist.imageUrl}
-                    title="art"
+                    title={artist.name}
+                    style={{height: 1, maxWidth: '300px', paddingTop: '55%'}}
                   />
 
                   <CardContent>
@@ -71,11 +73,18 @@ export class AllArtists extends React.Component {
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <Button component={Link} to={`/artists/${artist.id}`}>
+                  <Button
+                    startIcon={<ViewCarousel />}
+                    component={Link}
+                    to={`/artists/${artist.id}`}
+                  >
                     View
                   </Button>
                   {user.isAdmin ? (
-                    <Button onClick={() => this.handleDelete(artist.id)}>
+                    <Button
+                      startIcon={<Delete />}
+                      onClick={() => this.handleDelete(artist.id)}
+                    >
                       Delete
                     </Button>
                   ) : (

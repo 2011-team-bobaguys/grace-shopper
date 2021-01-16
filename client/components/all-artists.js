@@ -16,10 +16,10 @@ import {ViewCarousel, Delete} from '@material-ui/icons/'
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: '150px'
+    maxWidth: '300px'
   },
   media: {
-    height: 100
+    height: 300
   }
 })
 
@@ -46,9 +46,9 @@ export class AllArtists extends React.Component {
     return (
       <div>
         <h2>All Artists</h2>
-        <div>
+        <div className="allViewContainer">
           {this.props.artists.map(artist => (
-            <div key={artist.id}>
+            <div className="allView" key={artist.id}>
               <Card style={{maxWidth: '300px'}} className={classes.root}>
                 <CardActionArea>
                   <CardMedia
@@ -56,7 +56,7 @@ export class AllArtists extends React.Component {
                     // component="img"
                     image={artist.imageUrl}
                     title={artist.name}
-                    style={{height: 1, maxWidth: '300px', paddingTop: '55%'}}
+                    style={{height: 1, width: '300px', paddingTop: '55%'}}
                   />
 
                   <CardContent>

@@ -64,7 +64,7 @@ export class SingleProduct extends React.Component {
             <ListItem>
               <ListItemAvatar>
                 <Avatar>
-                  <img src={artistImage} />
+                  <img src={artistImage} style={{maxWidth: '50px'}} />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText primary={`${artistName}`} />

@@ -47,9 +47,9 @@ export class AllProducts extends React.Component {
     return (
       <div>
         <h2>All Art</h2>
-        <div>
+        <div className="allViewContainer">
           {this.props.products.map(product => (
-            <div key={product.id}>
+            <div className="allView" key={product.id}>
               <Card style={{maxWidth: '300px'}} className={classes.root}>
                 <CardActionArea id="artImgContainer">
                   <CardMedia
@@ -57,7 +57,7 @@ export class AllProducts extends React.Component {
                     // component="img"
                     image={product.imageUrl}
                     title={product.title}
-                    style={{height: 1, maxWidth: '300px', paddingTop: '55%'}}
+                    style={{height: 1, width: '300px', paddingTop: '55%'}}
                   />
 
                   <CardContent>

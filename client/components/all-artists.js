@@ -45,7 +45,7 @@ export class AllArtists extends React.Component {
     return (
       <div>
         <h2>All Artists</h2>
-        <div className="allViewContainer">
+        <div id="allArtistViewContainer">
           {this.props.artists.map(artist => (
             <div className="allView" key={artist.id}>
               <Card style={{maxWidth: '20vw'}} className={classes.root}>

@@ -33,8 +33,6 @@ router.post('/', isAdminCheck, async (req, res, next) => {
   try {
     const product = await Product.create(req.body)
 
-    const newProduct = await Product.findByPk(product.id)
-
     let artistResult = await Artist.findOne({
       where: {name: req.body.artist}
     })
@@ -43,7 +41,7 @@ router.post('/', isAdminCheck, async (req, res, next) => {
       artistResult = await Artist.create(req.body.artist)
     }
 
-    artistResult.addProduct(newProduct)
+    artistResult.addProduct(product)
 
     res.json(product)
   } catch (err) {

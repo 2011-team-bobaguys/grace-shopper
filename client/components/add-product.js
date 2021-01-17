@@ -20,8 +20,6 @@ const movements = [
   FUTURISM
 ]
 
-// MEDIUMS
-
 const OIL_ON_CANVAS = 'Oil on canvas'
 const PHOTOGRAPH = 'Photograph'
 const GRAPHITE_ON_PAPER = 'Graphite on paper'
@@ -50,7 +48,8 @@ class AddProduct extends React.Component {
         price: 100,
         inventory: 0,
         artist: ''
-      }
+      },
+      submitSuccess: false
     }
 
     this.submitHandler = this.submitHandler.bind(this)
@@ -60,8 +59,8 @@ class AddProduct extends React.Component {
 
   submitHandler() {
     event.preventDefault()
-    console.log('submitted')
     this.props.addProductToDB(this.state.productInfo)
+    this.setState({submitSuccess: true})
   }
   changeHandler() {
     this.setState({
@@ -70,6 +69,7 @@ class AddProduct extends React.Component {
         [event.target.name]: event.target.value
       }
     })
+    this.setState({submitSuccess: false})
   }
   imageClickHandler() {
     this.setState({
@@ -81,10 +81,12 @@ class AddProduct extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div>
         <h4>Add A New Product</h4>
+        {this.state.submitSuccess && (
+          <p>New Product Submitted Successfully! </p>
+        )}
         <form
           onSubmit={this.submitHandler}
           name="addProduct"
@@ -167,6 +169,12 @@ class AddProduct extends React.Component {
         </form>
       </div>
     )
+  }
+}
+
+const mapState = state => {
+  return {
+    newProduct: state.products[state.products.length - 1]
   }
 }
 

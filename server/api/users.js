@@ -5,7 +5,7 @@ const {User, Cart, Product, CartProduct} = require('../db/models')
 const {isAdminCheck} = require('./isAdmin')
 module.exports = router
 
-// cart route -- not working
+// TODO: cart route -- not working
 // app.use('/:userId/cart', require('./cart'))
 
 /**
@@ -89,7 +89,7 @@ router.put('/:userId/cart/add/:productId', async (req, res, next) => {
   }
 })
 
-//PUT/ api/user/:userId/cart/delete/:productId -- REMOVE ITEM FROM CART
+//PUT/ api/users/:userId/cart/delete/:productId -- REMOVE ITEM FROM CART
 router.put('/:userId/cart/delete/:productId', async (req, res, next) => {
   try {
     const cart = await Cart.findOne({
@@ -106,31 +106,52 @@ router.put('/:userId/cart/delete/:productId', async (req, res, next) => {
   }
 })
 
-// localhost:8080/api/users/2/cart/remove/1
+// PUT api/users/:userId/cart/increase/:productId -- INCREASE QUANTITY OF ITEM
+router.put('/:userId/cart/increase/:productId', async (req, res, next) => {
+  try {
+    const cart = await Cart.findOne({
+      where: {
+        UserId: req.params.userId,
+        active: true
+      }
+    })
+    const cartId = cart.dataValues.id
+    const cartProduct = await CartProduct.findOne({
+      where: {
+        CartId: cartId,
+        ProductId: req.params.productId
+      }
+    })
+    await cartProduct.update({
+      quantity: ++cartProduct.quantity
+    })
+    res.send(cartProduct)
+  } catch (err) {
+    next(err)
+  }
+})
 
-/*
-		http://localhost:8080/api/users/1/cart/add/2
-
-	req.params = {
-		userId: 1,
-		productId: 1 } 
-	*/
-
-/* 
-
-cart possibilities
-
-add to cart: 
-PUT /api/users/:userId/cart/add/:productId
-	- lets us access user's cart and the product they want to add
-
-delete from cart: 
-PUT /api/users/:userId/cart/delete/:productId
-
-decreasing quantity from 1 to 0 is the same as deleting
-
-edit cart item quantity:
-PUT /api/users/:userId/cart/
-
-
-*/
+// PUT api/users/:userId/cart/decrease/:productId -- DECREASE QUANTITY OF ITEM
+router.put('/:userId/cart/decrease/:productId', async (req, res, next) => {
+  try {
+    const cart = await Cart.findOne({
+      where: {
+        UserId: req.params.userId,
+        active: true
+      }
+    })
+    const cartId = cart.dataValues.id
+    const cartProduct = await CartProduct.findOne({
+      where: {
+        CartId: cartId,
+        ProductId: req.params.productId
+      }
+    })
+    await cartProduct.update({
+      quantity: --cartProduct.quantity
+    })
+    res.send(cartProduct)
+  } catch (err) {
+    next(err)
+  }
+})

@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchProduct} from '../store/singleProduct'
-import TextField from '@material-ui/core/TextField'
 import {addProductToDB} from '../store/products'
 
 const DADA = 'Dada'

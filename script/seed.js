@@ -27,6 +27,42 @@ const dummyData = [
         price: 5000000
       },
       {
+        title: 'The Persistence of Memory',
+        movement: 'Surrealism',
+        medium: 'Paint on canvas',
+        imageUrl:
+          'https://cdn.britannica.com/10/182610-050-77811599/The-Persistence-of-Memory-canvas-collection-Salvador-1931.jpg',
+        year: 1931,
+        price: 5000000
+      },
+      {
+        title: `Campbell's Soup Can`,
+        movement: 'Pop art',
+        medium: 'Paint on canvas',
+        imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/7/7a/Campbell%27Soup_%281965%29_Andy_Warhol_%281928-1967%29_%2849982308446%29.jpg',
+        year: 1965,
+        price: 5000000
+      },
+      {
+        title: 'Card Player',
+        movement: 'Surrealism',
+        medium: 'Paint on canvas',
+        imageUrl:
+          'https://upload.wikimedia.org/wikipedia/en/3/39/Pablo_Picasso%2C_1913-14%2C_L%27Homme_aux_cartes_%28Card_Player%29%2C_oil_on_canvas%2C_108_x_89.5_cm%2C_Museum_of_Modern_Art%2C_New_York.jpg',
+        year: 1914,
+        price: 5000000
+      },
+      {
+        title: 'Sky Above Clouds',
+        movement: 'Pop art',
+        medium: 'Paint on canvas',
+        imageUrl:
+          'https://miro.medium.com/max/1400/1*NW-kQ_YjhNqLG8tl6XdbmQ.jpeg',
+        year: 1965,
+        price: 5000000
+      },
+      {
         title: "Campbell's Soup Cans 2",
         movement: 'Pop art',
         medium: 'Paint on canvas',
@@ -48,7 +84,7 @@ const dummyData = [
         price: 5000000
       },
       {
-        title: "Campbell's Soup Cans 4",
+        title: "Campbell's Soup Cans 5",
         movement: 'Pop art',
         medium: 'Paint on canvas',
         year: 1962,
@@ -72,6 +108,16 @@ const dummyData = [
         name: 'Andy Warhol',
         imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/4/42/Andy_Warhol_1975.jpg'
+      },
+      {
+        name: 'Pablo Picasso',
+        imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/9/98/Pablo_picasso_1.jpg'
+      },
+      {
+        name: `Georgia O'Keeffe`,
+        imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/b/b4/O%27Keeffe-%28hands%29.jpg'
       }
     ]
   },
@@ -129,6 +175,19 @@ const addAssociations = async () => {
     const existingProducts = await Product.findAll()
     const existingArtists = await Artist.findAll()
 
+    const [kahlo, dali, warhol, picasso, okeeffe] = existingArtists
+    const [
+      kahloProduct1,
+      daliProduct1,
+      warholProduct1,
+      picassoProduct1,
+      okeeffeProduct1,
+      warholProduct2,
+      warholProduct3,
+      warholProduct4,
+      warholProduct5
+    ] = existingProducts
+
     // associate users with carts
     for (let i = 0; i < existingUsers.length; i++) {
       await existingUsers[i].addCart(existingCarts[i])
@@ -141,10 +200,21 @@ const addAssociations = async () => {
     }
 
     // associate artists with products
-    for (let i = 0; i < existingProducts.length; i++) {
-      let j = i % existingArtists.length // idx for artist
-      await existingArtists[j].addProduct(existingProducts[i])
-    }
+
+    await kahlo.addProduct(kahloProduct1)
+    await dali.addProduct(daliProduct1)
+    await warhol.addProduct(warholProduct1)
+    await picasso.addProduct(picassoProduct1)
+    await okeeffe.addProduct(okeeffeProduct1)
+    await warhol.addProduct(warholProduct2)
+    await warhol.addProduct(warholProduct3)
+    await warhol.addProduct(warholProduct4)
+    await warhol.addProduct(warholProduct5)
+
+    // for (let i = 0; i < existingProducts.length; i++) {
+    //   let j = i % existingArtists.length // idx for artist
+    //   await existingArtists[j].addProduct(existingProducts[i])
+    // }
   } catch (err) {
     console.error(err.message)
   }

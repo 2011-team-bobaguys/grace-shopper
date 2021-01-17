@@ -9,17 +9,10 @@ import {
   Avatar,
   ListItemText,
   Typography,
-  Button
+  Button,
+  CircularProgress
 } from '@material-ui/core'
 import {Share, AddShoppingCart} from '@material-ui/icons/'
-
-//SAMPLE IMAGES - DELETE LATER
-
-const artImagePlaceHolder =
-  'https://upload.wikimedia.org/wikipedia/commons/7/7a/Campbell%27Soup_%281965%29_Andy_Warhol_%281928-1967%29_%2849982308446%29.jpg'
-
-const artistImagePlaceHolder =
-  'https://upload.wikimedia.org/wikipedia/commons/2/2b/Andy_Warhol_by_Jack_Mitchell.jpg'
 
 /**
  * COMPONENT
@@ -40,9 +33,10 @@ export class SingleProduct extends React.Component {
 
   render() {
     const product = this.props.product || {}
+    let artImage = product.imageUrl
     let artistName = 'Unknown'
-    let artistImage = artistImagePlaceHolder
-    let artImage = product.imageUrl || artImagePlaceHolder
+    let artistImage =
+      'https://upload.wikimedia.org/wikipedia/commons/2/2b/Andy_Warhol_by_Jack_Mitchell.jpg'
     if (product.Artist) {
       artistName = product.Artist.name
       artistImage = product.Artist.imageUrl
@@ -50,7 +44,11 @@ export class SingleProduct extends React.Component {
     return (
       <div>
         <Paper>
-          <img src={artImage} width="300" />
+          {artImage ? (
+            <img className="singleViewImg" src={artImage} width="300" />
+          ) : (
+            <CircularProgress />
+          )}
           <Typography variant="h6" component="h3">
             {product.title}
           </Typography>

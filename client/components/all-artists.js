@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import {Link} from 'react-router-dom'
-import {ViewCarousel, Delete} from '@material-ui/icons/'
+import {Delete} from '@material-ui/icons/'
 
 const useStyles = makeStyles({
   root: {
@@ -42,56 +42,50 @@ export class AllArtists extends React.Component {
   render() {
     const classes = useStyles
     const user = this.props.user
-    // console.log('PROPS', this.props)
     return (
       <div>
         <h2>All Artists</h2>
         <div className="allViewContainer">
           {this.props.artists.map(artist => (
             <div className="allView" key={artist.id}>
-              <Card style={{maxWidth: '300px'}} className={classes.root}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    // component="img"
-                    image={artist.imageUrl}
-                    title={artist.name}
-                    style={{height: 1, width: '300px', paddingTop: '55%'}}
-                  />
+              <Link to={`/artists/${artist.id}`}>
+                <Card style={{maxWidth: '300px'}} className={classes.root}>
+                  <CardActionArea>
+                    <CardMedia
+                      className={classes.media}
+                      // component="img"
+                      image={artist.imageUrl}
+                      title={artist.name}
+                      style={{height: 1, width: '300px', paddingTop: '55%'}}
+                    />
 
-                  <CardContent>
-                    <Typography variant="h6" component="h3">
-                      {artist.name}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      {`Info about ${artist.name}`}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Button
-                    startIcon={<ViewCarousel />}
-                    component={Link}
-                    to={`/artists/${artist.id}`}
-                  >
-                    View
-                  </Button>
-                  {user.isAdmin ? (
-                    <Button
-                      startIcon={<Delete />}
-                      onClick={() => this.handleDelete(artist.id)}
-                    >
-                      Delete
-                    </Button>
-                  ) : (
-                    ''
-                  )}
-                </CardActions>
-              </Card>
+                    <CardContent>
+                      <Typography variant="h6" component="h3">
+                        {artist.name}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                      >
+                        {`Info about ${artist.name}`}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    {user.isAdmin ? (
+                      <Button
+                        startIcon={<Delete />}
+                        onClick={() => this.handleDelete(artist.id)}
+                      >
+                        Delete
+                      </Button>
+                    ) : (
+                      ''
+                    )}
+                  </CardActions>
+                </Card>
+              </Link>
             </div>
           ))}
         </div>

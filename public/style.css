@@ -29,3 +29,12 @@ form div {
 .allView {
   margin: 25px;
 }
+
+.singleViewContainer {
+  display: flex;
+}
+
+.singleViewImgContainer,
+.singleViewTextContainer {
+  margin: 15px;
+}

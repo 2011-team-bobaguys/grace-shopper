@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {fetchProduct} from '../store/singleProduct'
 import {
   Paper,
@@ -34,42 +35,52 @@ export class SingleProduct extends React.Component {
   render() {
     const product = this.props.product || {}
     let artImage = product.imageUrl
+    let artist = ''
     let artistName = 'Unknown'
     let artistImage =
       'https://upload.wikimedia.org/wikipedia/commons/2/2b/Andy_Warhol_by_Jack_Mitchell.jpg'
     if (product.Artist) {
+      artist = product.Artist
       artistName = product.Artist.name
       artistImage = product.Artist.imageUrl
     }
     return (
       <div>
         <Paper>
-          {artImage ? (
-            <img className="singleViewImg" src={artImage} width="300" />
-          ) : (
-            <CircularProgress />
-          )}
-          <Typography variant="h6" component="h3">
-            {product.title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {`${product.medium} (${product.year})`}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {`$${(product.price / 100).toLocaleString('en-US')}`}
-          </Typography>
-          <List>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <img src={artistImage} style={{maxWidth: '50px'}} />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={`${artistName}`} />
-            </ListItem>
-          </List>
-          <Button startIcon={<Share />}>Share</Button>
-          <Button startIcon={<AddShoppingCart />}>Buy</Button>
+          <div className="singleViewContainer">
+            <div className="singleViewImgContainer">
+              {artImage ? (
+                <img className="singleViewImg" src={artImage} width="300" />
+              ) : (
+                <CircularProgress />
+              )}
+            </div>
+            <div className="singleViewTextContainer">
+              <Typography variant="h6" component="h3">
+                {product.title}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {`${product.medium} (${product.year})`}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {`$${(product.price / 100).toLocaleString('en-US')}`}
+              </Typography>
+              <List>
+                <Link to={`/artists/${artist.id}`}>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <img src={artistImage} style={{maxWidth: '50px'}} />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={`${artistName}`} />
+                  </ListItem>
+                </Link>
+              </List>
+              <Button startIcon={<Share />}>Share</Button>
+              <Button startIcon={<AddShoppingCart />}>Buy</Button>
+            </div>
+          </div>
         </Paper>
       </div>
     )

@@ -37,18 +37,24 @@ export class SingleArtist extends React.Component {
     return (
       <div>
         <Paper>
-          {artistImage ? (
-            <img className="singleViewImg" src={artistImage} width="300" />
-          ) : (
-            <CircularProgress />
-          )}
-          <Typography variant="h6" component="h3">
-            {artist.name}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {`Info about ${artist.name}`}
-          </Typography>
-          <Button startIcon={<Share />}>Share</Button>
+          <div className="singleViewContainer">
+            <div className="singleViewImgContainer">
+              {artistImage ? (
+                <img className="singleViewImg" src={artistImage} width="300" />
+              ) : (
+                <CircularProgress />
+              )}
+            </div>
+            <div className="singleViewTextContainer">
+              <Typography variant="h6" component="h3">
+                {artist.name}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {`Info about ${artist.name}`}
+              </Typography>
+              <Button startIcon={<Share />}>Share</Button>
+            </div>
+          </div>
         </Paper>
       </div>
     )

@@ -19,3 +19,43 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+#allProductViewContainer,
+#allArtistViewContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* justify-content: space-around; */
+}
+
+/* #allProductViewContainer:after {
+  display: flex;
+  content: '';
+  flex: 0 0 100%;
+  max-width: 30vw;
+}
+
+#allArtistViewContainer:after {
+  display: flex;
+  content: '';
+  flex: 0 0 100%;
+  max-width: 20vw;
+} */
+
+#allProductView,
+#allArtistView {
+  margin: 1.45vw;
+}
+
+.singleViewContainer {
+  display: flex;
+}
+
+.singleViewImgContainer,
+.singleViewTextContainer {
+  margin: 15px;
+}
+
+a {
+  color: inherit;
+}

@@ -61,7 +61,7 @@ export class AllProducts extends React.Component {
                     />
 
                     <CardContent>
-                      <Typography variant="h6" component="h3">
+                      <Typography noWrap variant="h6" component="h3">
                         {product.title}
                       </Typography>
                       {product.Artist ? (

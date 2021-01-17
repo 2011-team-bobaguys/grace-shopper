@@ -18,10 +18,12 @@ const dummyData = [
   {
     products: [
       {
-        title: "Campbell's Soup Cans 1",
-        movement: 'Pop art',
+        title: 'Self-Portrait with Thorn Necklace and Hummingbird',
+        movement: 'Surrealism',
         medium: 'Paint on canvas',
-        year: 1962,
+        imageUrl:
+          'https://upload.wikimedia.org/wikipedia/en/1/1e/Frida_Kahlo_%28self_portrait%29.jpg',
+        year: 1940,
         price: 5000000
       },
       {
@@ -57,13 +59,19 @@ const dummyData = [
   {
     artists: [
       {
-        name: 'Andy Warhol'
+        name: 'Frida Kahlo',
+        imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/0/09/Frida_Kahlo%2C_by_Guillermo_Kahlo_%28cropped%29.jpg'
       },
       {
-        name: 'Salvador Dali'
+        name: 'Salvador Dali',
+        imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/b/bd/Man_Ray_Salvador_Dali-cropped.jpg'
       },
       {
-        name: 'Frida Kahlo'
+        name: 'Andy Warhol',
+        imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/4/42/Andy_Warhol_1975.jpg'
       }
     ]
   },

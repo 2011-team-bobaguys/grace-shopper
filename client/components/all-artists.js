@@ -48,44 +48,37 @@ export class AllArtists extends React.Component {
         <div className="allViewContainer">
           {this.props.artists.map(artist => (
             <div className="allView" key={artist.id}>
-              <Link to={`/artists/${artist.id}`}>
-                <Card style={{maxWidth: '300px'}} className={classes.root}>
+              <Card style={{maxWidth: '20vw'}} className={classes.root}>
+                <Link to={`/artists/${artist.id}`}>
                   <CardActionArea>
                     <CardMedia
                       className={classes.media}
                       // component="img"
                       image={artist.imageUrl}
                       title={artist.name}
-                      style={{height: 1, width: '300px', paddingTop: '55%'}}
+                      style={{height: 1, width: '20vw', paddingTop: '55%'}}
                     />
 
                     <CardContent>
                       <Typography variant="h6" component="h3">
                         {artist.name}
                       </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        {`Info about ${artist.name}`}
-                      </Typography>
                     </CardContent>
                   </CardActionArea>
-                  <CardActions>
-                    {user.isAdmin ? (
-                      <Button
-                        startIcon={<Delete />}
-                        onClick={() => this.handleDelete(artist.id)}
-                      >
-                        Delete
-                      </Button>
-                    ) : (
-                      ''
-                    )}
-                  </CardActions>
-                </Card>
-              </Link>
+                </Link>
+                <CardActions>
+                  {user.isAdmin ? (
+                    <Button
+                      startIcon={<Delete />}
+                      onClick={() => this.handleDelete(artist.id)}
+                    >
+                      Delete
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+                </CardActions>
+              </Card>
             </div>
           ))}
         </div>

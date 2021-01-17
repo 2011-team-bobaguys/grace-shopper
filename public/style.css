@@ -24,10 +24,11 @@ form div {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .allView {
-  margin: 25px;
+  margin: 10px;
 }
 
 .singleViewContainer {

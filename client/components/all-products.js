@@ -49,15 +49,15 @@ export class AllProducts extends React.Component {
         <div className="allViewContainer">
           {this.props.products.map(product => (
             <div className="allView" key={product.id}>
-              <Link to={`/products/${product.id}`}>
-                <Card style={{maxWidth: '300px'}} className={classes.root}>
+              <Card style={{width: '30vw'}} className={classes.root}>
+                <Link to={`/products/${product.id}`}>
                   <CardActionArea id="artImgContainer">
                     <CardMedia
                       className={classes.media}
                       // component="img"
                       image={product.imageUrl}
                       title={product.title}
-                      style={{height: 1, width: '300px', paddingTop: '55%'}}
+                      style={{height: 1, width: '30 vw', paddingTop: '55%'}}
                     />
 
                     <CardContent>
@@ -90,21 +90,21 @@ export class AllProducts extends React.Component {
                       </Typography>
                     </CardContent>
                   </CardActionArea>
-                  <CardActions>
-                    <Button startIcon={<AddShoppingCart />}>Buy</Button>
-                    {user.isAdmin ? (
-                      <Button
-                        startIcon={<Delete />}
-                        onClick={() => this.handleDelete(product.id)}
-                      >
-                        Delete
-                      </Button>
-                    ) : (
-                      ''
-                    )}
-                  </CardActions>
-                </Card>
-              </Link>
+                </Link>
+                <CardActions>
+                  <Button startIcon={<AddShoppingCart />}>Buy</Button>
+                  {user.isAdmin ? (
+                    <Button
+                      startIcon={<Delete />}
+                      onClick={() => this.handleDelete(product.id)}
+                    >
+                      Delete
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+                </CardActions>
+              </Card>
             </div>
           ))}
         </div>

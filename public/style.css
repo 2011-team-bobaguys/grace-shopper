@@ -39,7 +39,7 @@ form div {
   display: flex;
   content: '';
   flex: 0 0 100%;
-  max-width: 30vw;
+  max-width: 20vw;
 }
 
 .allView {

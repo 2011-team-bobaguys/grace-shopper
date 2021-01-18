@@ -25,10 +25,10 @@ form div {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  /* justify-content: space-around; */
 }
 
-#allProductViewContainer:after {
+/* #allProductViewContainer:after {
   display: flex;
   content: '';
   flex: 0 0 100%;
@@ -40,10 +40,11 @@ form div {
   content: '';
   flex: 0 0 100%;
   max-width: 20vw;
-}
+} */
 
-.allView {
-  margin-bottom: 20px;
+#allProductView,
+#allArtistView {
+  margin: 1.45vw;
 }
 
 .singleViewContainer {

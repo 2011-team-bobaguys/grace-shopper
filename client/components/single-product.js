@@ -4,10 +4,8 @@ import {Link} from 'react-router-dom'
 import {fetchProduct} from '../store/singleProduct'
 import {
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
-  CardMedia,
   List,
   ListItem,
   ListItemAvatar,
@@ -52,7 +50,7 @@ export class SingleProduct extends React.Component {
     let artist = ''
     let artistName = 'Unknown'
     let artistImage =
-      'https://upload.wikimedia.org/wikipedia/commons/2/2b/Andy_Warhol_by_Jack_Mitchell.jpg'
+      'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'
     if (product.Artist) {
       artist = product.Artist
       artistName = product.Artist.name
@@ -88,7 +86,7 @@ export class SingleProduct extends React.Component {
                           <img src={artistImage} style={{maxWidth: '50px'}} />
                         </Avatar>
                       </ListItemAvatar>
-                      <ListItemText primary={`${artistName}`} />
+                      <ListItemText primary={artistName} />
                     </ListItem>
                   </Link>
                 </List>

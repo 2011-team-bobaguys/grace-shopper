@@ -47,16 +47,15 @@ export class AllArtists extends React.Component {
         <h2>All Artists</h2>
         <div id="allArtistViewContainer">
           {this.props.artists.map(artist => (
-            <div className="allView" key={artist.id}>
-              <Card style={{maxWidth: '20vw'}} className={classes.root}>
+            <div id="allArtistView" key={artist.id}>
+              <Card style={{maxWidth: '30vw'}} className={classes.root}>
                 <Link to={`/artists/${artist.id}`}>
                   <CardActionArea>
                     <CardMedia
                       className={classes.media}
-                      // component="img"
                       image={artist.imageUrl}
                       title={artist.name}
-                      style={{height: 1, width: '20vw', paddingTop: '55%'}}
+                      style={{height: 1, width: '30vw', paddingTop: '55%'}}
                     />
 
                     <CardContent>

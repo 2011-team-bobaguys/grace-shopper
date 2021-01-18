@@ -54,3 +54,7 @@ form div {
 .singleViewTextContainer {
   margin: 15px;
 }
+
+a {
+  color: inherit;
+}

@@ -182,6 +182,13 @@ const addInstancesAssociations = async () => {
       await existingProducts[i].addCart(existingCarts[j])
     }
 
+    const existingCartProducts = await CartProduct.findAll()
+
+    for (let i = 0; i < existingCartProducts.length; i++) {
+      existingCartProducts[i].quantity = Math.floor(Math.random() * 100) + 1
+      await existingCartProducts[i].save()
+    }
+
     // associate artists with products
 
     await kahlo.addProduct(kahloProduct1)

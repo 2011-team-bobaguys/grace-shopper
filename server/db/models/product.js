@@ -70,7 +70,7 @@ const Product = db.define('Product', {
 // methods for money conversions
 
 Product.prototype.checkout = function(product, purchaseAmt) {
-  this.quantity -= purchaseAmt
+  this.inventory -= purchaseAmt
 }
 
 Product.prototype.toDollars = () => {

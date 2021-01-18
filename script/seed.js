@@ -182,11 +182,14 @@ const addInstancesAssociations = async () => {
       await existingProducts[i].addCart(existingCarts[j])
     }
 
+    // add quanity and total price to CartProduct through table
+
     const existingCartProducts = await CartProduct.findAll()
 
     for (let i = 0; i < existingCartProducts.length; i++) {
       existingCartProducts[i].quantity = Math.floor(Math.random() * 100) + 1
       await existingCartProducts[i].save()
+      existingCartProducts[i].setTotalPrice()
     }
 
     // associate artists with products

@@ -8,7 +8,13 @@ const Cart = db.define('Cart', {
   },
   purchaseDate: {
     type: Sequelize.DATE
+  },
+  cartTotalPrice: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   }
 })
+
+
 
 module.exports = Cart

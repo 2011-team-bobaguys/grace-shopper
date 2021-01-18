@@ -77,4 +77,20 @@ Product.prototype.toDollars = () => {
   return this.price / 100
 }
 
+const Mediums = [
+  OIL_ON_CANVAS,
+  PHOTOGRAPH,
+  GRAPHITE_ON_PAPER,
+  FOUND_OBJECT,
+  PAINT_ON_CANVAS
+]
+const Movements = [
+  DADA,
+  ABSTRACT_EXPRESSIONISM,
+  EXPRESSIONISM,
+  SURREALISM,
+  POP_ART,
+  FUTURISM
+]
+
 module.exports = Product

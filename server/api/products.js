@@ -28,9 +28,21 @@ router.get('/:productId', async (req, res, next) => {
 })
 
 // POST /api/products
+//JOE NOTE: FIND OR CREATE ARTIST, ADD ASSOCIATION, FORMAT PRICE
 router.post('/', isAdminCheck, async (req, res, next) => {
   try {
     const product = await Product.create(req.body)
+
+    let artistResult = await Artist.findOne({
+      where: {name: req.body.artist}
+    })
+
+    if (!artistResult) {
+      artistResult = await Artist.create(req.body.artist)
+    }
+
+    artistResult.addProduct(product)
+
     res.json(product)
   } catch (err) {
     next(err)

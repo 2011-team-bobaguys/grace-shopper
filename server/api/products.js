@@ -38,7 +38,7 @@ router.post('/', isAdminCheck, async (req, res, next) => {
     })
 
     if (!artistResult) {
-      artistResult = await Artist.create(req.body.artist)
+      artistResult = await Artist.create({name: req.body.artist})
     }
 
     artistResult.addProduct(product)

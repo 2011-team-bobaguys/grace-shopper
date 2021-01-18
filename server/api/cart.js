@@ -1,9 +1,117 @@
 const router = require('express').Router()
+const {Cart, Product, CartProduct} = require('../db/models')
 module.exports = router
 
-// TODO: ADD CART ROUTES HERE
+// get active cart
+const getCart = async userId => {
+  return Cart.findOne({
+    where: {
+      UserId: userId,
+      active: true
+    },
+    include: Product
+  })
+}
 
-// GET /api/users/:userId/cart
+// get a product in a user's cart
+const getCartProduct = async (ProductId, CartId) => {
+  return CartProduct.findOne({
+    where: {
+      ProductId,
+      CartId
+    }
+  })
+}
+
+// GET /api/cart -- get single cart
 router.get('/', async (req, res, next) => {
-  res.send('it worked')
+  try {
+    if (req.user.id) {
+      const cart = await getCart(req.user.id)
+      res.json(cart)
+    }
+    // TODO: SEND GUEST CART
+  } catch (err) {
+    next(err)
+  }
+})
+
+// GET /api/cart/all -- get all carts
+router.get('/all', async (req, res, next) => {
+  try {
+    if (req.user.id) {
+      const carts = await Cart.findAll({
+        where: {
+          UserId: req.user.id
+        },
+        include: Product
+      })
+      res.json(carts)
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+// PUT /api/cart/add/:productId -- add item to cart
+router.put('/add/:productId', async (req, res, next) => {
+  try {
+    const user = req.user.id
+    if (user) {
+      const cart = await getCart(user)
+      const cartProduct = await getCartProduct(
+        req.params.productId,
+        cart.dataValues.id
+      )
+      if (cartProduct) {
+        // item already in cart, increase quantity
+        await cartProduct.update({
+          quantity: ++cartProduct.quantity
+        })
+      } else {
+        // item not in cart, make new association
+        const product = await Product.findByPk(req.params.productId)
+        await cart.addProduct(product)
+      }
+      res.json(await getCart(user)) // send updated list of products
+    }
+    // TODO: GUEST CART
+  } catch (err) {
+    next(err)
+  }
+})
+
+// PUT /api/cart/delete/:productId -- remove item from cart
+router.put('/delete/:productId', async (req, res, next) => {
+  try {
+    const user = req.user.id
+    if (user) {
+      const cart = await getCart(user)
+      const product = await Product.findByPk(req.params.productId)
+      await cart.removeProduct(product)
+      res.json(await getCart(user)) // send updated list of products
+    }
+    // TODO: GUEST CART
+  } catch (err) {
+    next(err)
+  }
+})
+
+// PUT /api/cart/edit/:productId/:qty -- edit item quantity
+router.put('/edit/:productId/:qty', async (req, res, next) => {
+  try {
+    const user = req.user.id
+    if (user) {
+      const cart = await getCart(user)
+      const cartProduct = await getCartProduct(
+        req.params.productId,
+        cart.dataValues.id
+      )
+      await cartProduct.update({quantity: req.params.qty})
+      res.json(await getCart(user)) // send updated list of products
+    }
+    // TODO: GUEST CART
+  } catch (err) {
+    next(err)
+  }
 })

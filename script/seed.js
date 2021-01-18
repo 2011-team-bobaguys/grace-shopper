@@ -192,6 +192,12 @@ const addInstancesAssociations = async () => {
       existingCartProducts[i].setTotalPrice()
     }
 
+    // set cart total price
+
+    for (let i = 0; i < existingCarts.length; i++) {
+      await existingCarts[i].setCartTotalPrice()
+    }
+
     // associate artists with products
 
     await kahlo.addProduct(kahloProduct1)

@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const CartProduct = require('./cartProduct')
 
 const Cart = db.define('Cart', {
   active: {
@@ -15,6 +16,15 @@ const Cart = db.define('Cart', {
   }
 })
 
-
+Cart.prototype.setCartTotalPrice = async function() {
+  const allProductsInCart = await CartProduct.findAll({
+    where: {CartId: this.id}
+  })
+  const totalPrice = allProductsInCart.reduce((accum, currentCartProduct) => {
+    return accum + currentCartProduct.totalPrice
+  }, 0)
+  this.cartTotalPrice = totalPrice
+  await this.save()
+}
 
 module.exports = Cart

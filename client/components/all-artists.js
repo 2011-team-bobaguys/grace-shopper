@@ -12,13 +12,14 @@ import {
 } from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import {Link} from 'react-router-dom'
+import {Delete} from '@material-ui/icons/'
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 150
+    maxWidth: '300px'
   },
   media: {
-    height: 100
+    height: 300
   }
 })
 
@@ -41,41 +42,35 @@ export class AllArtists extends React.Component {
   render() {
     const classes = useStyles
     const user = this.props.user
-    // console.log('PROPS', this.props)
     return (
       <div>
         <h2>All Artists</h2>
-        <div>
+        <div id="allArtistViewContainer">
           {this.props.artists.map(artist => (
-            <div key={artist.id}>
-              <Card className={classes.root}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    component="img"
-                    image={artist.imageUrl}
-                    title="art"
-                  />
+            <div id="allArtistView" key={artist.id}>
+              <Card style={{maxWidth: '30vw'}} className={classes.root}>
+                <Link to={`/artists/${artist.id}`}>
+                  <CardActionArea>
+                    <CardMedia
+                      className={classes.media}
+                      image={artist.imageUrl}
+                      title={artist.name}
+                      style={{height: 1, width: '30vw', paddingTop: '55%'}}
+                    />
 
-                  <CardContent>
-                    <Typography variant="h6" component="h3">
-                      {artist.name}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      {`Info about ${artist.name}`}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
+                    <CardContent>
+                      <Typography variant="h6" component="h3">
+                        {artist.name}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Link>
                 <CardActions>
-                  <Button component={Link} to={`/artists/${artist.id}`}>
-                    View
-                  </Button>
                   {user.isAdmin ? (
-                    <Button onClick={() => this.handleDelete(artist.id)}>
+                    <Button
+                      startIcon={<Delete />}
+                      onClick={() => this.handleDelete(artist.id)}
+                    >
                       Delete
                     </Button>
                   ) : (

@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fetchProduct} from '../store/singleProduct'
+import {addToCart} from '../store/cart'
 import {
   Card,
   CardActions,
@@ -33,6 +34,7 @@ const useStyles = makeStyles({
 export class SingleProduct extends React.Component {
   constructor() {
     super()
+    this.handleAddToCart = this.handleAddToCart.bind(this)
   }
 
   componentDidMount() {
@@ -41,6 +43,10 @@ export class SingleProduct extends React.Component {
     } catch (error) {
       console.error(error)
     }
+  }
+
+  handleAddToCart(productId) {
+    this.props.toggleAddToCart(productId)
   }
 
   render() {
@@ -93,7 +99,12 @@ export class SingleProduct extends React.Component {
               </CardContent>
               <CardActions>
                 <Button startIcon={<Share />}>Share</Button>
-                <Button startIcon={<AddShoppingCart />}>Buy</Button>
+                <Button
+                  startIcon={<AddShoppingCart />}
+                  onClick={() => this.handleAddToCart(product.id)}
+                >
+                  Buy
+                </Button>
               </CardActions>
             </Card>
           </div>
@@ -108,13 +119,15 @@ export class SingleProduct extends React.Component {
  */
 const mapState = state => {
   return {
-    product: state.singleProduct
+    product: state.singleProduct,
+    cart: state.cart
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    loadProduct: productId => dispatch(fetchProduct(productId))
+    loadProduct: productId => dispatch(fetchProduct(productId)),
+    toggleAddToCart: productId => dispatch(addToCart(productId))
   }
 }
 

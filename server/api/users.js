@@ -3,7 +3,7 @@ const {User} = require('../db/models')
 const {isAdminCheck} = require('./isAdmin')
 module.exports = router
 
-// TODO: when a non-user tries to access admin routes, error message returns 'Cannot read property 'isAdmin' of undefined' instead of 'Must be admin to do this!'
+// TODO: when a non-admin tries to access admin routes, error message returns 'Cannot read property 'isAdmin' of undefined' instead of 'Must be admin to do this!'
 
 // GET /api/users -- admin view of all users
 router.get('/', isAdminCheck, async (req, res, next) => {

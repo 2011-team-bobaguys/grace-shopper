@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchProducts, fetchDeleteProduct} from '../store/products'
+import {addToCart} from '../store/cart'
 import {
   Card,
   CardActionArea,
@@ -30,6 +31,7 @@ export class AllProducts extends React.Component {
   constructor() {
     super()
     this.handleDelete = this.handleDelete.bind(this)
+    this.handleAddToCart = this.handleAddToCart.bind(this)
   }
   componentDidMount() {
     this.props.loadProducts()
@@ -37,7 +39,10 @@ export class AllProducts extends React.Component {
 
   handleDelete(productToDelete) {
     this.props.loadDeleteProduct(productToDelete)
-    console.log('DELETED')
+  }
+
+  handleAddToCart(productId) {
+    this.props.toggleAddToCart(productId)
   }
 
   render() {
@@ -91,7 +96,12 @@ export class AllProducts extends React.Component {
                   </CardActionArea>
                 </Link>
                 <CardActions>
-                  <Button startIcon={<AddShoppingCart />}>Buy</Button>
+                  <Button
+                    startIcon={<AddShoppingCart />}
+                    onClick={() => this.handleAddToCart(product.id)}
+                  >
+                    Buy
+                  </Button>
                   {user.isAdmin ? (
                     <Button
                       startIcon={<Delete />}
@@ -118,14 +128,16 @@ export class AllProducts extends React.Component {
 const mapState = state => {
   return {
     products: state.products,
-    user: state.user
+    user: state.user,
+    cart: state.cart
   }
 }
 
 const mapDispatch = dispatch => {
   return {
     loadProducts: () => dispatch(fetchProducts()),
-    loadDeleteProduct: productId => dispatch(fetchDeleteProduct(productId))
+    loadDeleteProduct: productId => dispatch(fetchDeleteProduct(productId)),
+    toggleAddToCart: productId => dispatch(addToCart(productId))
   }
 }
 

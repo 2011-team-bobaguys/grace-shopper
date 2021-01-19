@@ -11,11 +11,19 @@ class GuestCart extends React.Component {
       guestCart: JSON.parse(window.localStorage.getItem('guestCart'))
     }
     this.guestCartDeleteItem = this.guestCartDeleteItem.bind(this)
+    this.guestCartUpdateQuantity = this.guestCartUpdateQuantity.bind(this)
   }
 
   guestCartDeleteItem(id) {
-    let guestCart = JSON.parse(window.localStorage.getItem('guestCart'))
+    let guestCart = this.state.guestCart
     delete guestCart[id]
+    window.localStorage.setItem('guestCart', JSON.stringify(guestCart))
+    this.setState({guestCart})
+  }
+
+  guestCartUpdateQuantity(id, num) {
+    let guestCart = this.state.guestCart
+    guestCart[id] = num
     window.localStorage.setItem('guestCart', JSON.stringify(guestCart))
     this.setState({guestCart})
   }
@@ -89,9 +97,22 @@ class GuestCart extends React.Component {
                     <h4 style={{marginTop: 0, marginBottom: 10}}>
                       {productInfo.title}
                     </h4>
-                    <p style={{marginTop: 0, marginBottom: 2}}>
-                      Quantity: {quantity}
-                    </p>
+                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                      <p style={{marginTop: 0, marginBottom: 2}}>Quantity:</p>
+                      <input
+                        min={1}
+                        style={{width: 50}}
+                        type="number"
+                        value={quantity}
+                        onChange={() => {
+                          this.guestCartUpdateQuantity(
+                            productInfo.id,
+                            event.target.value
+                          )
+                        }}
+                      />
+                    </div>
+
                     <p style={{marginTop: 0, marginBottom: 2}}>
                       Price: $
                       {(productInfo.price * quantity).toLocaleString('en-US')}
@@ -114,7 +135,7 @@ class GuestCart extends React.Component {
             })}
           </div>
           <small>
-            ......................................................................................
+            <hr />
           </small>
         </div>
         <div style={{display: 'flex', flexDirection: 'column'}}>

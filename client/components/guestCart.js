@@ -7,6 +7,17 @@ import CheckoutSuccess from './checkoutSuccess'
 class GuestCart extends React.Component {
   constructor() {
     super()
+    this.state = {
+      guestCart: JSON.parse(window.localStorage.getItem('guestCart'))
+    }
+    this.guestCartDeleteItem = this.guestCartDeleteItem.bind(this)
+  }
+
+  guestCartDeleteItem(id) {
+    let guestCart = JSON.parse(window.localStorage.getItem('guestCart'))
+    delete guestCart[id]
+    window.localStorage.setItem('guestCart', JSON.stringify(guestCart))
+    this.setState({guestCart})
   }
 
   componentDidMount() {
@@ -14,8 +25,7 @@ class GuestCart extends React.Component {
   }
 
   render() {
-    const myStorage = window.localStorage
-    const guestCart = JSON.parse(myStorage.getItem('guestCart'))
+    const guestCart = this.state.guestCart
     const productList = this.props.products
     let totalPrice = 0
 
@@ -71,7 +81,9 @@ class GuestCart extends React.Component {
                   <div
                     style={{
                       display: 'flex',
-                      flexDirection: 'column'
+                      flexDirection: 'column',
+                      marginLeft: 10,
+                      padding: 5
                     }}
                   >
                     <h4 style={{marginTop: 0, marginBottom: 10}}>
@@ -84,6 +96,18 @@ class GuestCart extends React.Component {
                       Price: $
                       {(productInfo.price * quantity).toLocaleString('en-US')}
                     </p>
+                    <button
+                      style={{
+                        width: 'fit-content',
+                        backgroundColor: 'orange'
+                      }}
+                      type="button"
+                      onClick={() => {
+                        this.guestCartDeleteItem(productInfo.id)
+                      }}
+                    >
+                      Remove Item From Cart
+                    </button>
                   </div>
                 </div>
               )
@@ -109,6 +133,7 @@ class GuestCart extends React.Component {
                 pathname: '/checkout-success',
                 totalPrice: totalPrice
               })
+              window.localStorage.setItem('guestCart', JSON.stringify({}))
             }}
           >
             Checkout

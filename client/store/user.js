@@ -69,9 +69,9 @@ export const logout = () => async dispatch => {
   }
 }
 
-export const fetchCarts = userId => async dispatch => {
+export const fetchCarts = () => async dispatch => {
   try {
-    const res = await axios.get(`/api/users/${userId}/cart`)
+    const res = await axios.get(`/api/cart/all`)
     dispatch(getUserCarts(res.data))
   } catch (err) {
     console.error(err)

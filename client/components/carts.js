@@ -7,7 +7,7 @@ export class AllCarts extends React.Component {
     super()
   }
   componentDidMount() {
-    this.props.loadCarts(this.props.user.id)
+    this.props.loadCarts()
   }
 
   render() {
@@ -39,12 +39,14 @@ export class AllCarts extends React.Component {
               return (
                 <div key={product.id}>
                   <h3>{product.title}</h3>
-                  <h4>Price:{product.price}</h4>
-                  <p>Quantity:{product.CartProduct.quantity}</p>
+                  <h4>Price: {product.price}</h4>
+                  <p>Quantity: {product.CartProduct.quantity}</p>
                 </div>
               )
             })}
-          <small>...........................................</small>
+          <small>
+            ......................................................................................
+          </small>
           <h4>
             Subtotal:
             {this.props.user.carts
@@ -67,7 +69,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadCarts: userId => dispatch(fetchCarts(userId))
+    loadCarts: () => dispatch(fetchCarts())
   }
 }
 

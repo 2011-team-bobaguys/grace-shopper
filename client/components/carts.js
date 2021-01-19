@@ -1,6 +1,16 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchActiveCart} from '../store/cart'
+import {
+  Card,
+  CardActions,
+  CardContent,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Button
+} from '@material-ui/core'
 
 export class AllCarts extends React.Component {
   constructor() {
@@ -15,6 +25,7 @@ export class AllCarts extends React.Component {
     const subtotal = activeCart ? activeCart.cartTotalPrice : ' '
     // console.log('ACTIVE CART!!!', activeCart)
     // console.log('this.props.cart', this.props.cart)
+    console.log('PROPS', this.props)
     if (!this.props.user.id) {
       return <p>This is the guest cart for now!</p>
     } else if (
@@ -50,6 +61,7 @@ export class AllCarts extends React.Component {
             {`Subtotal:
             $${(subtotal / 100).toLocaleString('en-US')}`}
           </h4>
+          <Button>Checkout</Button>
         </div>
       )
     }

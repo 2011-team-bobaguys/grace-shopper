@@ -1,23 +1,19 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchCarts} from '../store/user'
+import {fetchActiveCart} from '../store/cart'
 
 export class AllCarts extends React.Component {
   constructor() {
     super()
   }
   componentDidMount() {
-    this.props.loadCarts()
+    this.props.loadActiveCart()
   }
 
   render() {
-    let activeCart = ''
-    if (this.props.user.carts) {
-      activeCart = this.props.user.carts.filter(cart => {
-        return cart.active === true
-      })[0]
-    }
-
+    const activeCart = this.props.cart[0]
+    console.log('ACTIVE CART!!!', activeCart)
+    console.log('this.props.cart', this.props.cart)
     if (!this.props.user.id) {
       return <p>This is the guest cart for now!</p>
     } else if (
@@ -34,26 +30,21 @@ export class AllCarts extends React.Component {
       return (
         <div>
           <h2>My Active Cart</h2>
-          {this.props.user.carts &&
-            activeCart.Products.map(product => {
-              return (
-                <div key={product.id}>
-                  <h3>{product.title}</h3>
-                  <h4>Price: {product.price}</h4>
-                  <p>Quantity: {product.CartProduct.quantity}</p>
-                </div>
-              )
-            })}
+          {activeCart.Products.map(product => {
+            return (
+              <div key={product.id}>
+                <h3>{product.title}</h3>
+                <h4>Price: {product.price}</h4>
+                <p>Quantity: {product.CartProduct.quantity}</p>
+              </div>
+            )
+          })}
           <small>
             ......................................................................................
           </small>
           <h4>
-            Subtotal:
-            {this.props.user.carts
-              ? activeCart.Products.reduce((accum, singleProduct) => {
-                  return accum + singleProduct.price * 1 //needs to be quantity
-                }, 0)
-              : ' '}
+            Subtotal: 10000000
+            {/* {activeCart ? activeCart.setCartTotalPrice() : ' '} */}
           </h4>
         </div>
       )
@@ -63,13 +54,14 @@ export class AllCarts extends React.Component {
 
 const mapState = state => {
   return {
+    cart: state.cart,
     user: state.user
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    loadCarts: () => dispatch(fetchCarts())
+    loadActiveCart: () => dispatch(fetchActiveCart())
   }
 }
 

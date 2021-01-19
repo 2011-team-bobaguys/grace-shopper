@@ -17,6 +17,7 @@ CartProduct.prototype.setTotalPrice = async function() {
   let currentProduct = await Product.findByPk(this.ProductId)
   this.totalPrice = this.quantity * currentProduct.price
   await this.save()
+  return this.totalPrice
 }
 
 module.exports = CartProduct

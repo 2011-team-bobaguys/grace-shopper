@@ -25,6 +25,7 @@ Cart.prototype.setCartTotalPrice = async function() {
   }, 0)
   this.cartTotalPrice = totalPrice
   await this.save()
+  return this.cartTotalPrice
 }
 
 module.exports = Cart

@@ -11,10 +11,10 @@ import {
   AllArtistsConnected,
   SingleArtistConnected,
   AddProduct,
-  HomePage
+  HomePage,
+  AllUserCarts
 } from './components'
 import {me} from './store'
-import AllUserCarts from './components/carts'
 
 /**
  * COMPONENT
@@ -31,21 +31,21 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={HomePage} />
+        <Route exact path="/cart" component={AllUserCarts} />
         <Route exact path="/products" component={AllProductsConnected} />
         <Route
           exact
           path="/products/:productId"
           component={SingleProductConnected}
         />
-        <Route path="/cart" component={AllUserCarts} />
         <Route exact path="/artists" component={AllArtistsConnected} />
         <Route
           exact
           path="/artists/:artistId"
           component={SingleArtistConnected}
         />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

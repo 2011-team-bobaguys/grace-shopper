@@ -12,8 +12,9 @@ export class AllCarts extends React.Component {
 
   render() {
     const activeCart = this.props.cart[0]
-    console.log('ACTIVE CART!!!', activeCart)
-    console.log('this.props.cart', this.props.cart)
+    const subtotal = activeCart ? activeCart.cartTotalPrice : ' '
+    // console.log('ACTIVE CART!!!', activeCart)
+    // console.log('this.props.cart', this.props.cart)
     if (!this.props.user.id) {
       return <p>This is the guest cart for now!</p>
     } else if (
@@ -34,7 +35,10 @@ export class AllCarts extends React.Component {
             return (
               <div key={product.id}>
                 <h3>{product.title}</h3>
-                <h4>Price: {product.price}</h4>
+                <h4>
+                  {`Price:
+            $${(product.price / 100).toLocaleString('en-US')}`}
+                </h4>
                 <p>Quantity: {product.CartProduct.quantity}</p>
               </div>
             )
@@ -43,8 +47,8 @@ export class AllCarts extends React.Component {
             ......................................................................................
           </small>
           <h4>
-            Subtotal: 10000000
-            {/* {activeCart ? activeCart.setCartTotalPrice() : ' '} */}
+            {`Subtotal:
+            $${(subtotal / 100).toLocaleString('en-US')}`}
           </h4>
         </div>
       )

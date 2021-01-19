@@ -26,7 +26,7 @@ const getCartProduct = async (ProductId, CartId) => {
 // GET /api/cart -- get single cart
 router.get('/', async (req, res, next) => {
   try {
-    if (req.user.id) {
+    if (req.user) {
       const cart = await getCart(req.user.id)
       res.json(cart)
     }

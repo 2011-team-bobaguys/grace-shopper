@@ -1,7 +1,7 @@
 const passport = require('passport')
 const router = require('express').Router()
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-const {User} = require('../db/models')
+const {User, Cart} = require('../db/models')
 module.exports = router
 
 /**
@@ -18,6 +18,37 @@ module.exports = router
  * process.env.GOOGLE_CALLBACK = '/your/google/callback'
  */
 
+const verificationCallback = async (
+  accessToken,
+  refreshToken,
+  profile,
+  done
+) => {
+  try {
+    let user = await User.findOne({
+      where: {
+        googleId: profile.id
+      }
+    })
+
+    if (!user) {
+      user = await User.create({
+        email: profile.emails[0].value,
+        imageUrl: profile.photos[0].value,
+        firstName: profile.name.givenName,
+        lastName: profile.name.familyName,
+        googleId: profile.id
+      })
+      const newCart = await Cart.create()
+      await user.addCart(newCart)
+    }
+
+    done(null, user)
+  } catch (error) {
+    done(error)
+  }
+}
+
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   console.log('Google client ID / secret not found. Skipping Google OAuth.')
 } else {
@@ -27,25 +58,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     callbackURL: process.env.GOOGLE_CALLBACK
   }
 
-  const strategy = new GoogleStrategy(
-    googleConfig,
-    (token, refreshToken, profile, done) => {
-      const googleId = profile.id
-      const email = profile.emails[0].value
-      const imgUrl = profile.photos[0].value
-      const firstName = profile.name.givenName
-      const lastName = profile.name.familyName
-      const fullName = profile.displayName
-
-      User.findOrCreate({
-        where: {googleId},
-        defaults: {email, imgUrl, firstName, lastName, fullName}
-      })
-        .then(([user]) => done(null, user))
-        .catch(done)
-    }
-  )
-
+  const strategy = new GoogleStrategy(googleConfig, verificationCallback)
   passport.use(strategy)
 
   router.get(

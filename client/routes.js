@@ -11,7 +11,8 @@ import {
   AllArtistsConnected,
   SingleArtistConnected,
   AddProduct,
-  HomePage
+  HomePage,
+  GuestCart
 } from './components'
 import {me} from './store'
 import AllUserCarts from './components/carts'
@@ -27,6 +28,10 @@ class Routes extends Component {
   render() {
     const {isLoggedIn, isAdmin} = this.props
 
+    if (!window.localStorage.getItem('guestCart')) {
+      window.localStorage.setItem('guestCart', JSON.stringify({}))
+    }
+
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
@@ -37,7 +42,12 @@ class Routes extends Component {
           path="/products/:productId"
           component={SingleProductConnected}
         />
-        <Route path="/cart" component={AllUserCarts} />
+
+        {isLoggedIn ? (
+          <Route path="/cart" component={AllUserCarts} />
+        ) : (
+          <Route path="/cart" component={GuestCart} />
+        )}
         <Route exact path="/artists" component={AllArtistsConnected} />
         <Route
           exact

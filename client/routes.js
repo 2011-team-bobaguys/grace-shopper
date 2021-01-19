@@ -10,7 +10,8 @@ import {
   SingleProductConnected,
   AllArtistsConnected,
   SingleArtistConnected,
-  AddProduct
+  AddProduct,
+  HomePage
 } from './components'
 import {me} from './store'
 import AllUserCarts from './components/carts'
@@ -29,6 +30,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route exact path="/" component={HomePage} />
         <Route exact path="/products" component={AllProductsConnected} />
         <Route
           exact

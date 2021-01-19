@@ -9,6 +9,8 @@ const EXPRESSIONISM = 'Expressionism'
 const SURREALISM = 'Surrealism'
 const POP_ART = 'Pop art'
 const FUTURISM = 'Futurism'
+const CONTEMPORARY = 'Contemporary'
+const MODERNISM = 'Modernism'
 
 // MEDIUMS
 
@@ -17,6 +19,7 @@ const PHOTOGRAPH = 'Photograph'
 const GRAPHITE_ON_PAPER = 'Graphite on paper'
 const FOUND_OBJECT = 'Found object'
 const PAINT_ON_CANVAS = 'Paint on canvas'
+const INSTALLATION = 'Installation'
 
 const Product = db.define('Product', {
   title: {
@@ -29,7 +32,9 @@ const Product = db.define('Product', {
       EXPRESSIONISM,
       SURREALISM,
       POP_ART,
-      FUTURISM
+      FUTURISM,
+      CONTEMPORARY,
+      MODERNISM
     )
   },
   medium: {
@@ -38,7 +43,8 @@ const Product = db.define('Product', {
       PHOTOGRAPH,
       GRAPHITE_ON_PAPER,
       FOUND_OBJECT,
-      PAINT_ON_CANVAS
+      PAINT_ON_CANVAS,
+      INSTALLATION
     )
   },
   imageUrl: {
@@ -82,7 +88,8 @@ const Mediums = [
   PHOTOGRAPH,
   GRAPHITE_ON_PAPER,
   FOUND_OBJECT,
-  PAINT_ON_CANVAS
+  PAINT_ON_CANVAS,
+  INSTALLATION
 ]
 const Movements = [
   DADA,
@@ -90,7 +97,9 @@ const Movements = [
   EXPRESSIONISM,
   SURREALISM,
   POP_ART,
-  FUTURISM
+  FUTURISM,
+  CONTEMPORARY,
+  MODERNISM
 ]
 
 module.exports = Product

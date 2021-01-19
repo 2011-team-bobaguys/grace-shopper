@@ -1,5 +1,5 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 a {
@@ -58,4 +58,9 @@ form div {
 
 a {
   color: inherit;
+}
+
+.loggedinCart {
+  display: flex;
+  justify-content: space-between;
 }

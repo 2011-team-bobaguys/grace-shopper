@@ -12,4 +12,6 @@ export {default as AllArtistsConnected} from './all-artists'
 export {default as SingleArtistConnected} from './single-artist'
 export {default as AddProduct} from './add-product'
 export {HomePage} from './home'
+export {default as AllUserCarts} from './carts'
 export {default as GuestCart} from './guestCart'
+

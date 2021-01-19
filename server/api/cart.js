@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Cart, Product, CartProduct} = require('../db/models')
+const {Cart, Product, CartProduct, User} = require('../db/models')
 module.exports = router
 
 // get active cart
@@ -60,7 +60,7 @@ router.put('/add/:productId', async (req, res, next) => {
     let product
     if (user) {
       const cart = await getCart(user)
-      const cartProduct = await getCartProduct(
+      let cartProduct = await getCartProduct(
         req.params.productId,
         cart.dataValues.id
       )
@@ -73,7 +73,13 @@ router.put('/add/:productId', async (req, res, next) => {
         // item not in cart, make new association
         product = await Product.findByPk(req.params.productId)
         await cart.addProduct(product)
+        cartProduct = await getCartProduct(
+          req.params.productId,
+          cart.dataValues.id
+        )
+        await cartProduct.save()
       }
+      await cart.save()
       res.json(await getCart(user)) // send updated list of products
     }
     // TODO: GUEST CART
@@ -110,6 +116,27 @@ router.put('/edit/:productId/:qty', async (req, res, next) => {
       )
       await cartProduct.update({quantity: req.params.qty})
       res.json(await getCart(user)) // send updated list of products
+    }
+    // TODO: GUEST CART
+  } catch (err) {
+    next(err)
+  }
+})
+
+//PUT /api/cart/checkout
+router.put('/checkout', async (req, res, next) => {
+  try {
+    const userId = req.user.id
+    if (userId) {
+      const user = await User.findByPk(userId)
+      const purchaseCart = await getCart(userId)
+      await purchaseCart.update({
+        purchaseDate: new Date(),
+        active: false
+      })
+      const newCart = await Cart.create()
+      await user.addCart(newCart)
+      res.json(purchaseCart)
     }
     // TODO: GUEST CART
   } catch (err) {

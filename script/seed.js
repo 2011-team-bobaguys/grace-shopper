@@ -87,7 +87,7 @@ const addInstancesAssociations = async () => {
       },
       {
         title: 'Sky Above Clouds',
-        movement: 'Pop art',
+        movement: 'Modernism',
         medium: 'Paint on canvas',
         imageUrl:
           'https://miro.medium.com/max/1400/1*NW-kQ_YjhNqLG8tl6XdbmQ.jpeg',
@@ -102,24 +102,21 @@ const addInstancesAssociations = async () => {
         price: 5000000
       },
       {
-        title: "Campbell's Soup Cans 3",
-        movement: 'Pop art',
-        medium: 'Paint on canvas',
-        year: 1962,
+        title: 'Aftermath of Obliteration of Eternity',
+        movement: 'Contemporary',
+        imageUrl:
+          'https://hirshhorn.si.edu/wp-content/uploads/2016/12/Eternity2.jpg',
+        medium: 'Installation',
+        year: 2009,
         price: 5000000
       },
       {
-        title: "Campbell's Soup Cans 4",
-        movement: 'Pop art',
+        title: 'Untitled',
+        movement: 'Contemporary',
+        imageUrl:
+          'https://media.npr.org/assets/img/2017/05/19/ap_17139057993590_custom-4b66c69edc099e052d91a43ca0b4c40b2f65f0c4-s1300-c85.jpg',
         medium: 'Paint on canvas',
-        year: 1962,
-        price: 5000000
-      },
-      {
-        title: "Campbell's Soup Cans 5",
-        movement: 'Pop art',
-        medium: 'Paint on canvas',
-        year: 1962,
+        year: 1982,
         price: 5000000
       }
     ]).then(() => {
@@ -151,6 +148,16 @@ const addInstancesAssociations = async () => {
         name: `Georgia O'Keeffe`,
         imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/b/b4/O%27Keeffe-%28hands%29.jpg'
+      },
+      {
+        name: 'Yayoi Kusama',
+        imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/5/5d/Yayoi_Kusama_cropped_1_Yayoi_Kusama_201611.jpg'
+      },
+      {
+        name: 'Jean-Michel Basquiat',
+        imageUrl:
+          'https://news.artnet.com/app/news-upload/2015/03/004-jean-michel-basquiat-theredlist.jpg'
       }
     ]).then(() => {
       return Artist.findAll()
@@ -163,12 +170,19 @@ const addInstancesAssociations = async () => {
       picassoProduct1,
       okeeffeProduct1,
       warholProduct2,
-      warholProduct3,
-      warholProduct4,
-      warholProduct5
+      kusamaProduct1,
+      basquiatProduct1
     ] = existingProducts
 
-    const [kahlo, dali, warhol, picasso, okeeffe] = existingArtists
+    const [
+      kahlo,
+      dali,
+      warhol,
+      picasso,
+      okeeffe,
+      kusama,
+      basquiat
+    ] = existingArtists
 
     // associate users with carts
     for (let i = 0; i < existingCarts.length; i++) {
@@ -206,9 +220,8 @@ const addInstancesAssociations = async () => {
     await picasso.addProduct(picassoProduct1)
     await okeeffe.addProduct(okeeffeProduct1)
     await warhol.addProduct(warholProduct2)
-    await warhol.addProduct(warholProduct3)
-    await warhol.addProduct(warholProduct4)
-    await warhol.addProduct(warholProduct5)
+    await kusama.addProduct(kusamaProduct1)
+    await basquiat.addProduct(basquiatProduct1)
   } catch (err) {
     console.error(err.message)
   }

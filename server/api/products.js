@@ -31,6 +31,7 @@ router.get('/:productId', async (req, res, next) => {
 //JOE NOTE: FIND OR CREATE ARTIST, ADD ASSOCIATION, FORMAT PRICE
 router.post('/', isAdminCheck, async (req, res, next) => {
   try {
+    req.body.price = req.body.price * 100
     const product = await Product.create(req.body)
 
     let artistResult = await Artist.findOne({

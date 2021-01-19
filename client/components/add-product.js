@@ -9,28 +9,35 @@ const EXPRESSIONISM = 'Expressionism'
 const SURREALISM = 'Surrealism'
 const POP_ART = 'Pop art'
 const FUTURISM = 'Futurism'
+const CONTEMPORARY = 'Contemporary'
+const MODERNISM = 'Modernism'
 
-const movements = [
-  DADA,
-  ABSTRACT_EXPRESSIONISM,
-  EXPRESSIONISM,
-  SURREALISM,
-  POP_ART,
-  FUTURISM
-]
+// MEDIUMS
 
 const OIL_ON_CANVAS = 'Oil on canvas'
 const PHOTOGRAPH = 'Photograph'
 const GRAPHITE_ON_PAPER = 'Graphite on paper'
 const FOUND_OBJECT = 'Found object'
 const PAINT_ON_CANVAS = 'Paint on canvas'
+const INSTALLATION = 'Installation'
 
 const mediums = [
   OIL_ON_CANVAS,
   PHOTOGRAPH,
   GRAPHITE_ON_PAPER,
   FOUND_OBJECT,
-  PAINT_ON_CANVAS
+  PAINT_ON_CANVAS,
+  INSTALLATION
+]
+const movements = [
+  DADA,
+  ABSTRACT_EXPRESSIONISM,
+  EXPRESSIONISM,
+  SURREALISM,
+  POP_ART,
+  FUTURISM,
+  CONTEMPORARY,
+  MODERNISM
 ]
 
 class AddProduct extends React.Component {
@@ -99,7 +106,11 @@ class AddProduct extends React.Component {
             <br />
             <label html="imageUrl">Image Url</label>
             <input id="productImage" type="text" />
-            <button name="imageUrl" onClick={this.imageClickHandler}>
+            <button
+              name="imageUrl"
+              onClick={this.imageClickHandler}
+              type="button"
+            >
               Change Image Artwork
             </button>
           </div>

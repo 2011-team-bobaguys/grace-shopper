@@ -21,7 +21,11 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
+    if (req.body.isAdmin) {
+      req.body.isAdmin = false
+    }
     const user = await User.create(req.body)
+    //if req.body.admin, make it false
     const newCart = await Cart.create()
     await user.addCart(newCart)
     req.login(user, err => (err ? next(err) : res.json(user)))

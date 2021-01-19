@@ -1,6 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 import {fetchProducts, fetchDeleteProduct} from '../store/products'
+import CheckoutSuccess from './checkoutSuccess'
 
 class GuestCart extends React.Component {
   constructor() {
@@ -15,6 +17,15 @@ class GuestCart extends React.Component {
     const myStorage = window.localStorage
     const guestCart = JSON.parse(myStorage.getItem('guestCart'))
     const productList = this.props.products
+    let totalPrice = 0
+
+    if (productList.length) {
+      totalPrice = Object.keys(guestCart)
+        .reduce((accum, key) => {
+          return accum + productList[key - 1].price * guestCart[key]
+        }, 0)
+        .toLocaleString('en-US')
+    }
 
     if (productList.length === 0) {
       return <p>Loading cart...</p>
@@ -34,7 +45,7 @@ class GuestCart extends React.Component {
         style={{
           display: 'flex',
           flexDirection: 'row',
-          justifyContent: 'space-between'
+          justifyContent: 'space-around'
         }}
       >
         <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -46,7 +57,12 @@ class GuestCart extends React.Component {
               return (
                 <div
                   key={key}
-                  style={{display: 'flex', flexDirection: 'row', marginTop: 10}}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginTop: 10,
+                    backgroundColor: 'lightgray'
+                  }}
                 >
                   <img
                     style={{width: 100, height: 100, objectFit: 'cover'}}
@@ -88,16 +104,18 @@ class GuestCart extends React.Component {
               marginTop: 20
             }}
             type="submit"
+            onClick={() => {
+              this.props.history.push({
+                pathname: '/checkout-success',
+                totalPrice: totalPrice
+              })
+            }}
           >
             Checkout
           </button>
           <h4>
             Subtotal:$
-            {Object.keys(guestCart)
-              .reduce((accum, key) => {
-                return accum + productList[key - 1].price * guestCart[key]
-              }, 0)
-              .toLocaleString('en-US')}
+            {totalPrice}
           </h4>
         </div>
       </div>

@@ -13,7 +13,8 @@ import {
   AddProduct,
   HomePage,
   AllUserCarts,
-  GuestCartConnected
+  GuestCartConnected,
+  CheckoutSuccess
 } from './components'
 import {me} from './store'
 
@@ -53,6 +54,7 @@ class Routes extends Component {
           path="/artists/:artistId"
           component={SingleArtistConnected}
         />
+        <Route path="/checkout-success" component={CheckoutSuccess} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
         {isLoggedIn && (

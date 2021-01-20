@@ -2,15 +2,6 @@ const router = require('express').Router()
 const {Cart, Product, CartProduct} = require('../db/models')
 module.exports = router
 
-/* 
-JULIE NOTES TO SELF;
-- buy button on allproducts WORKING
-- buy button on singleproduct WORKING
-- cart page
-	- remove product
-	- edit qty of product
- */
-
 // get active cart
 const getCart = async userId => {
   return Cart.findOne({
@@ -83,7 +74,7 @@ router.put('/add/:productId', async (req, res, next) => {
         product = await Product.findByPk(req.params.productId)
         await cart.addProduct(product)
       }
-      res.json(product) // send back product
+      res.json(await getCart(user)) // send updated list of products
     }
     // TODO: GUEST CART
   } catch (err) {

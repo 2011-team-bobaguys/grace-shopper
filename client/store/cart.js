@@ -1,20 +1,28 @@
 import axios from 'axios'
 
-const initialState = []
+const initialState = {}
 
 /**
  * ACTION TYPES
  */
 const ADD_TO_CART = 'ADD_TO_CART'
+const GET_ACTIVE_CART = 'GET_ACTIVE_CART'
 
 /**
  * ACTION CREATORS
  */
 
-const add = product => {
+const add = cart => {
   return {
     type: ADD_TO_CART,
-    product
+    cart
+  }
+}
+
+const getActiveCart = cart => {
+  return {
+    type: GET_ACTIVE_CART,
+    cart
   }
 }
 
@@ -25,8 +33,19 @@ const add = product => {
 export const addToCart = productId => {
   return async dispatch => {
     try {
-      const res = axios.put(`/api/cart/add/${productId}`)
+      const res = await axios.put(`/api/cart/add/${productId}`)
       dispatch(add(res.data))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
+export const fetchActiveCart = () => {
+  return async dispatch => {
+    try {
+      const res = await axios.get('/api/cart')
+      dispatch(getActiveCart(res.data))
     } catch (err) {
       console.error(err)
     }
@@ -39,7 +58,9 @@ export const addToCart = productId => {
 export default (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART:
-      return [...state, action.product]
+      return action.cart // return only the cart object
+    case GET_ACTIVE_CART:
+      return action.cart
     default:
       return state
   }

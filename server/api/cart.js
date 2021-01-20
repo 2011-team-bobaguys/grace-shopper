@@ -77,9 +77,9 @@ router.put('/add/:productId', async (req, res, next) => {
           req.params.productId,
           cart.dataValues.id
         )
-        cartProduct.save()
+        await cartProduct.save()
       }
-      cart.save()
+      await cart.save()
       res.json(await getCart(user)) // send updated list of products
     }
     // TODO: GUEST CART

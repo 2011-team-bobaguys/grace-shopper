@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchActiveCart, checkoutCart} from '../store/cart'
+import {fetchActiveCart, checkoutCart, removeFromCart} from '../store/cart'
 import {
   Card,
   CardActions,
@@ -16,6 +16,7 @@ export class AllCarts extends React.Component {
   constructor() {
     super()
     this.handleCheckout = this.handleCheckout.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
   }
   componentDidMount() {
     this.props.loadActiveCart()
@@ -23,6 +24,10 @@ export class AllCarts extends React.Component {
 
   handleCheckout() {
     this.props.loadCheckoutCart()
+  }
+
+  handleDelete(productId) {
+    this.props.loadRemoveFromCart(productId)
   }
 
   render() {
@@ -49,6 +54,9 @@ export class AllCarts extends React.Component {
                 <div>
                   <h3>{product.title}</h3>
                   <p>Quantity: {product.CartProduct.quantity}</p>
+                  <Button onClick={() => this.handleDelete(product.id)}>
+                    Delete item
+                  </Button>
                 </div>
                 <h4>
                   {`
@@ -61,9 +69,7 @@ export class AllCarts extends React.Component {
               </div>
             )
           })}
-          <small>
-            ......................................................................................
-          </small>
+          <hr />
           <h3 id="subtotalCart">
             {`Subtotal:
             $${(subtotal / 100).toLocaleString('en-US')}`}
@@ -85,7 +91,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     loadActiveCart: () => dispatch(fetchActiveCart()),
-    loadCheckoutCart: () => dispatch(checkoutCart())
+    loadCheckoutCart: () => dispatch(checkoutCart()),
+    loadRemoveFromCart: productId => dispatch(removeFromCart(productId))
   }
 }
 

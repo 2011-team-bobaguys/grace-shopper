@@ -8,6 +8,7 @@ const initialState = {}
 const ADD_TO_CART = 'ADD_TO_CART'
 const GET_ACTIVE_CART = 'GET_ACTIVE_CART'
 const CHECKOUT_CART = 'CHECKOUT_CART'
+const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 
 /**
  * ACTION CREATORS
@@ -30,6 +31,13 @@ const getActiveCart = cart => {
 const checkout = cart => {
   return {
     type: CHECKOUT_CART,
+    cart
+  }
+}
+
+const remove = cart => {
+  return {
+    type: REMOVE_FROM_CART,
     cart
   }
 }
@@ -71,6 +79,17 @@ export const checkoutCart = () => {
   }
 }
 
+export const removeFromCart = productId => {
+  return async dispatch => {
+    try {
+      const res = await axios.put(`/api/cart/delete/${productId}`)
+      dispatch(add(res.data))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
 /**
  * REDUCER
  */
@@ -81,6 +100,8 @@ export default (state = initialState, action) => {
     case GET_ACTIVE_CART:
       return action.cart
     case CHECKOUT_CART:
+      return action.cart
+    case REMOVE_FROM_CART:
       return action.cart
     default:
       return state

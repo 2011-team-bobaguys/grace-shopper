@@ -86,11 +86,12 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
+      const guestCart = JSON.parse(window.localStorage.getItem('guestCart'))
       if (evt.target.firstName) {
         firstName = evt.target.firstName.value
         lastName = evt.target.lastName.value
       }
-      dispatch(auth(email, password, firstName, lastName, formName))
+      dispatch(auth(email, password, firstName, lastName, formName, guestCart))
     }
   }
 }

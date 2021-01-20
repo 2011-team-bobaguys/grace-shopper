@@ -60,7 +60,7 @@ router.put('/add/:productId', async (req, res, next) => {
     let product
     if (user) {
       const cart = await getCart(user)
-      const cartProduct = await getCartProduct(
+      let cartProduct = await getCartProduct(
         req.params.productId,
         cart.dataValues.id
       )
@@ -73,7 +73,13 @@ router.put('/add/:productId', async (req, res, next) => {
         // item not in cart, make new association
         product = await Product.findByPk(req.params.productId)
         await cart.addProduct(product)
+        cartProduct = await getCartProduct(
+          req.params.productId,
+          cart.dataValues.id
+        )
+        cartProduct.save()
       }
+      cart.save()
       res.json(await getCart(user)) // send updated list of products
     }
     // TODO: GUEST CART

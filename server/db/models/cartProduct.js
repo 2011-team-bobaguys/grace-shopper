@@ -20,4 +20,19 @@ CartProduct.prototype.setTotalPrice = async function() {
   await this.save()
 }
 
+// CartProduct.afterCreate(async (cartProduct) => {
+//   let currentProduct = await Product.findByPk(cartProduct.ProductId)
+//   cartProduct.totalPrice = cartProduct.quantity * currentProduct.price
+// })
+
+CartProduct.addHook('beforeUpdate', async cartProduct => {
+  let currentProduct = await Product.findByPk(cartProduct.ProductId)
+  cartProduct.totalPrice = cartProduct.quantity * currentProduct.price
+})
+
+CartProduct.addHook('beforeSave', async cartProduct => {
+  let currentProduct = await Product.findByPk(cartProduct.ProductId)
+  cartProduct.totalPrice = cartProduct.quantity * currentProduct.price
+})
+
 module.exports = CartProduct

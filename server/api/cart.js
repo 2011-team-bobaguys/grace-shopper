@@ -126,8 +126,7 @@ router.put('/edit/:productId/:qty', async (req, res, next) => {
 //PUT /api/cart/checkout
 router.put('/checkout', async (req, res, next) => {
   try {
-    // const userId = req.user.id
-    const userId = 2
+    const userId = req.user.id
     if (userId) {
       const user = await User.findByPk(userId)
       const purchaseCart = await getCart(userId)

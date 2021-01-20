@@ -23,16 +23,9 @@ export class AllCarts extends React.Component {
   render() {
     const activeCart = this.props.cart
     const subtotal = activeCart ? activeCart.cartTotalPrice : ' '
-    // console.log('ACTIVE CART!!!', activeCart)
-    // console.log('this.props.cart', this.props.cart)
-    console.log('PROPS', this.props)
     if (!this.props.user.id) {
       return <p>This is the guest cart for now!</p>
-    } else if (
-      activeCart === '' ||
-      !activeCart ||
-      activeCart.Products.length === 0
-    ) {
+    } else if (activeCart === '' || !activeCart || !activeCart.Products) {
       return (
         <div>
           <h3>Your cart is empty right now! Go shopping!</h3>
@@ -41,26 +34,35 @@ export class AllCarts extends React.Component {
     } else {
       return (
         <div>
-          <h2>My Active Cart</h2>
+          <div className="loggedinCart">
+            <h2>Items</h2>
+            <h2>Price</h2>
+          </div>
           {activeCart.Products.map(product => {
             return (
-              <div key={product.id}>
-                <h3>{product.title}</h3>
+              <div className="loggedinCart" key={product.id}>
+                <div>
+                  <h3>{product.title}</h3>
+                  <p>Quantity: {product.CartProduct.quantity}</p>
+                </div>
                 <h4>
-                  {`Price:
-            $${(product.price / 100).toLocaleString('en-US')}`}
+                  {`
+            $${(
+              product.price /
+              100 *
+              product.CartProduct.quantity
+            ).toLocaleString('en-US')}`}
                 </h4>
-                <p>Quantity: {product.CartProduct.quantity}</p>
               </div>
             )
           })}
           <small>
             ......................................................................................
           </small>
-          <h4>
+          <h3 id="subtotalCart">
             {`Subtotal:
             $${(subtotal / 100).toLocaleString('en-US')}`}
-          </h4>
+          </h3>
           <Button>Checkout</Button>
         </div>
       )

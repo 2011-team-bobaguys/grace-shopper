@@ -59,3 +59,8 @@ form div {
 a {
   color: inherit;
 }
+
+.loggedinCart {
+  display: flex;
+  justify-content: space-between;
+}

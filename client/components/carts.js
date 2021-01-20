@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchActiveCart} from '../store/cart'
+import {fetchActiveCart, checkoutCart} from '../store/cart'
 import {
   Card,
   CardActions,
@@ -15,9 +15,14 @@ import {
 export class AllCarts extends React.Component {
   constructor() {
     super()
+    this.handleCheckout = this.handleCheckout.bind(this)
   }
   componentDidMount() {
     this.props.loadActiveCart()
+  }
+
+  handleCheckout() {
+    this.props.loadCheckoutCart()
   }
 
   render() {
@@ -63,7 +68,7 @@ export class AllCarts extends React.Component {
             {`Subtotal:
             $${(subtotal / 100).toLocaleString('en-US')}`}
           </h3>
-          <Button>Checkout</Button>
+          <Button onClick={() => this.handleCheckout()}>Checkout</Button>
         </div>
       )
     }
@@ -79,7 +84,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadActiveCart: () => dispatch(fetchActiveCart())
+    loadActiveCart: () => dispatch(fetchActiveCart()),
+    loadCheckoutCart: () => dispatch(checkoutCart())
   }
 }
 

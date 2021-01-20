@@ -7,6 +7,7 @@ const initialState = {}
  */
 const ADD_TO_CART = 'ADD_TO_CART'
 const GET_ACTIVE_CART = 'GET_ACTIVE_CART'
+const CHECKOUT_CART = 'CHECKOUT_CART'
 
 /**
  * ACTION CREATORS
@@ -22,6 +23,13 @@ const add = cart => {
 const getActiveCart = cart => {
   return {
     type: GET_ACTIVE_CART,
+    cart
+  }
+}
+
+const checkout = cart => {
+  return {
+    type: CHECKOUT_CART,
     cart
   }
 }
@@ -52,6 +60,17 @@ export const fetchActiveCart = () => {
   }
 }
 
+export const checkoutCart = () => {
+  return async dispatch => {
+    try {
+      const res = await axios.put('/api/cart/checkout')
+      dispatch(checkout(res.data))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
 /**
  * REDUCER
  */
@@ -60,6 +79,8 @@ export default (state = initialState, action) => {
     case ADD_TO_CART:
       return action.cart // return only the cart object
     case GET_ACTIVE_CART:
+      return action.cart
+    case CHECKOUT_CART:
       return action.cart
     default:
       return state

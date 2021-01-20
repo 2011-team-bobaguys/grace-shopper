@@ -9,6 +9,7 @@ const ADD_TO_CART = 'ADD_TO_CART'
 const GET_ACTIVE_CART = 'GET_ACTIVE_CART'
 const CHECKOUT_CART = 'CHECKOUT_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
+const UPDATE_QUANTITY = 'UPDATE_QUANTITY'
 
 /**
  * ACTION CREATORS
@@ -38,6 +39,13 @@ const checkout = cart => {
 const remove = cart => {
   return {
     type: REMOVE_FROM_CART,
+    cart
+  }
+}
+
+const update = cart => {
+  return {
+    type: UPDATE_QUANTITY,
     cart
   }
 }
@@ -83,7 +91,18 @@ export const removeFromCart = productId => {
   return async dispatch => {
     try {
       const res = await axios.put(`/api/cart/delete/${productId}`)
-      dispatch(add(res.data))
+      dispatch(remove(res.data))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
+export const updateQuantity = (productId, qty) => {
+  return async dispatch => {
+    try {
+      const res = await axios.put(`/api/cart/edit/${productId}/${qty}`)
+      dispatch(update(res.data))
     } catch (err) {
       console.error(err)
     }
@@ -102,6 +121,8 @@ export default (state = initialState, action) => {
     case CHECKOUT_CART:
       return action.cart
     case REMOVE_FROM_CART:
+      return action.cart
+    case UPDATE_QUANTITY:
       return action.cart
     default:
       return state

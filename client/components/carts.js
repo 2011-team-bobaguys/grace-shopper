@@ -1,6 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchActiveCart, checkoutCart, removeFromCart} from '../store/cart'
+import {
+  fetchActiveCart,
+  checkoutCart,
+  removeFromCart,
+  updateQuantity
+} from '../store/cart'
 import {
   Card,
   CardActions,
@@ -17,6 +22,7 @@ export class AllCarts extends React.Component {
     super()
     this.handleCheckout = this.handleCheckout.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
+    this.handleUpdateQuantity = this.handleUpdateQuantity.bind(this)
   }
   componentDidMount() {
     this.props.loadActiveCart()
@@ -28,6 +34,10 @@ export class AllCarts extends React.Component {
 
   handleDelete(productId) {
     this.props.loadRemoveFromCart(productId)
+  }
+
+  handleUpdateQuantity(productId, quantity) {
+    this.props.loadUpdateQuantity(productId, quantity)
   }
 
   render() {
@@ -53,7 +63,21 @@ export class AllCarts extends React.Component {
               <div className="loggedinCart" key={product.id}>
                 <div>
                   <h3>{product.title}</h3>
-                  <p>Quantity: {product.CartProduct.quantity}</p>
+                  <p>
+                    Quantity:{' '}
+                    <input
+                      min={1}
+                      style={{width: 50}}
+                      type="number"
+                      value={product.CartProduct.quantity}
+                      onChange={() => {
+                        this.handleUpdateQuantity(
+                          product.id,
+                          event.target.value
+                        )
+                      }}
+                    />
+                  </p>
                   <Button onClick={() => this.handleDelete(product.id)}>
                     Delete item
                   </Button>
@@ -92,7 +116,9 @@ const mapDispatch = dispatch => {
   return {
     loadActiveCart: () => dispatch(fetchActiveCart()),
     loadCheckoutCart: () => dispatch(checkoutCart()),
-    loadRemoveFromCart: productId => dispatch(removeFromCart(productId))
+    loadRemoveFromCart: productId => dispatch(removeFromCart(productId)),
+    loadUpdateQuantity: (productId, qty) =>
+      dispatch(updateQuantity(productId, qty))
   }
 }
 

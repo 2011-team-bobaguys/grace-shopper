@@ -13,7 +13,8 @@ import {
   AddProduct,
   HomePage,
   AllUserCarts,
-  GuestCart
+  GuestCartConnected,
+  CheckoutSuccess
 } from './components'
 import {me} from './store'
 
@@ -36,7 +37,6 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/cart" component={AllUserCarts} />
         <Route exact path="/products" component={AllProductsConnected} />
         <Route
           exact
@@ -46,7 +46,7 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Route path="/cart" component={AllUserCarts} />
         ) : (
-          <Route path="/cart" component={GuestCart} />
+          <Route path="/cart" component={GuestCartConnected} />
         )}
         <Route exact path="/artists" component={AllArtistsConnected} />
         <Route
@@ -54,6 +54,7 @@ class Routes extends Component {
           path="/artists/:artistId"
           component={SingleArtistConnected}
         />
+        <Route path="/checkout-success" component={CheckoutSuccess} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
         {isLoggedIn && (

@@ -45,6 +45,17 @@ export class AllProducts extends React.Component {
     this.props.toggleAddToCart(productId)
   }
 
+  handleGuestCart(productId) {
+    let guestCart = JSON.parse(window.localStorage.getItem('guestCart'))
+    if (guestCart[productId]) {
+      guestCart[productId]++
+    } else {
+      guestCart[productId] = 1
+    }
+
+    window.localStorage.setItem('guestCart', JSON.stringify(guestCart))
+  }
+
   render() {
     const classes = useStyles
     const user = this.props.user
@@ -98,7 +109,13 @@ export class AllProducts extends React.Component {
                 <CardActions>
                   <Button
                     startIcon={<AddShoppingCart />}
-                    onClick={() => this.handleAddToCart(product.id)}
+                    onClick={() => {
+                      if (this.props.user.id) {
+                        this.handleAddToCart(product.id)
+                      } else {
+                        this.handleGuestCart(product.id)
+                      }
+                    }}
                   >
                     Buy
                   </Button>

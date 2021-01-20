@@ -28,7 +28,8 @@ router.get('/:productId', async (req, res, next) => {
 })
 
 // POST /api/products
-//JOE NOTE: FIND OR CREATE ARTIST, ADD ASSOCIATION, FORMAT PRICE
+
+//array findOrCreate?
 router.post('/', isAdminCheck, async (req, res, next) => {
   try {
     req.body.price = req.body.price * 100

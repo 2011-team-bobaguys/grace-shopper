@@ -44,6 +44,16 @@ export class SingleProduct extends React.Component {
       console.error(error)
     }
   }
+  handleGuestCart(productId) {
+    let guestCart = JSON.parse(window.localStorage.getItem('guestCart'))
+    if (guestCart[productId]) {
+      guestCart[productId]++
+    } else {
+      guestCart[productId] = 1
+    }
+
+    window.localStorage.setItem('guestCart', JSON.stringify(guestCart))
+  }
 
   handleAddToCart(productId) {
     this.props.toggleAddToCart(productId)
@@ -105,21 +115,7 @@ export class SingleProduct extends React.Component {
                     if (this.props.user.id) {
                       this.handleAddToCart(product.id)
                     } else {
-                      let guestCart = JSON.parse(
-                        window.localStorage.getItem('guestCart')
-                      )
-                      if (guestCart[product.id]) {
-                        guestCart[product.id].quantity++
-                      } else {
-                        guestCart[product.id] = product
-
-                        guestCart[product.id].quantity = 1
-                      }
-
-                      window.localStorage.setItem(
-                        'guestCart',
-                        JSON.stringify(guestCart)
-                      )
+                      this.handleGuestCart(product.id)
                     }
                   }}
                 >

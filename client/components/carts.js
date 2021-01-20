@@ -30,6 +30,10 @@ export class AllCarts extends React.Component {
 
   handleCheckout() {
     this.props.loadCheckoutCart()
+    this.props.history.push({
+      pathname: '/checkout-success',
+      totalPrice: (this.props.cart.cartTotalPrice / 100).toLocaleString('en-US')
+    })
   }
 
   handleDelete(productId) {

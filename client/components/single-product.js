@@ -17,7 +17,7 @@ import {
   CircularProgress
 } from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
-import {Share, AddShoppingCart} from '@material-ui/icons/'
+import {Share, AddShoppingCart, Info} from '@material-ui/icons/'
 
 const useStyles = makeStyles({
   root: {
@@ -101,7 +101,27 @@ export class SingleProduct extends React.Component {
                 <Button startIcon={<Share />}>Share</Button>
                 <Button
                   startIcon={<AddShoppingCart />}
-                  onClick={() => this.handleAddToCart(product.id)}
+                  onClick={() => {
+                    if (this.props.user.id) {
+                      this.handleAddToCart(product.id)
+                    } else {
+                      let guestCart = JSON.parse(
+                        window.localStorage.getItem('guestCart')
+                      )
+                      if (guestCart[product.id]) {
+                        guestCart[product.id].quantity++
+                      } else {
+                        guestCart[product.id] = product
+
+                        guestCart[product.id].quantity = 1
+                      }
+
+                      window.localStorage.setItem(
+                        'guestCart',
+                        JSON.stringify(guestCart)
+                      )
+                    }
+                  }}
                 >
                   Buy
                 </Button>
@@ -119,6 +139,7 @@ export class SingleProduct extends React.Component {
  */
 const mapState = state => {
   return {
+    user: state.user,
     product: state.singleProduct,
     cart: state.cart
   }

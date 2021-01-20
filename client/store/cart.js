@@ -1,73 +1,67 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {fetchActiveCart} from '../store/cart'
+import axios from 'axios'
 
-export class AllCarts extends React.Component {
-  constructor() {
-    super()
-  }
-  componentDidMount() {
-    this.props.loadActiveCart()
-  }
+const initialState = {}
 
-  render() {
-    const activeCart = this.props.cart[0]
-    const subtotal = activeCart ? activeCart.cartTotalPrice : ' '
-    // console.log('ACTIVE CART!!!', activeCart)
-    // console.log('this.props.cart', this.props.cart)
-    if (!this.props.user.id) {
-      return <p>This is the guest cart for now!</p>
-    } else if (
-      activeCart === '' ||
-      !activeCart ||
-      activeCart.Products.length === 0
-    ) {
-      return (
-        <div>
-          <h3>Your cart is empty right now! Go shopping!</h3>
-        </div>
-      )
-    } else {
-      return (
-        <div>
-          <h2>My Active Cart</h2>
-          {activeCart.Products.map(product => {
-            return (
-              <div key={product.id}>
-                <h3>{product.title}</h3>
-                <h4>
-                  {`Price:
-            $${(product.price / 100).toLocaleString('en-US')}`}
-                </h4>
-                <p>Quantity: {product.CartProduct.quantity}</p>
-              </div>
-            )
-          })}
-          <small>
-            ......................................................................................
-          </small>
-          <h4>
-            {`Subtotal:
-            $${(subtotal / 100).toLocaleString('en-US')}`}
-          </h4>
-        </div>
-      )
+/**
+ * ACTION TYPES
+ */
+const ADD_TO_CART = 'ADD_TO_CART'
+const GET_ACTIVE_CART = 'GET_ACTIVE_CART'
+
+/**
+ * ACTION CREATORS
+ */
+
+const add = cart => {
+  return {
+    type: ADD_TO_CART,
+    cart
+  }
+}
+
+const getActiveCart = cart => {
+  return {
+    type: GET_ACTIVE_CART,
+    cart
+  }
+}
+
+/**
+ * THUNK CREATORS
+ */
+
+export const addToCart = productId => {
+  return async dispatch => {
+    try {
+      const res = await axios.put(`/api/cart/add/${productId}`)
+      dispatch(add(res.data))
+    } catch (err) {
+      console.error(err)
     }
   }
 }
 
-const mapState = state => {
-  return {
-    cart: state.cart,
-    user: state.user
+export const fetchActiveCart = () => {
+  return async dispatch => {
+    try {
+      const res = await axios.get('/api/cart')
+      dispatch(getActiveCart(res.data))
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    loadActiveCart: () => dispatch(fetchActiveCart())
+/**
+ * REDUCER
+ */
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_TO_CART:
+      return action.cart // return only the cart object
+    case GET_ACTIVE_CART:
+      return action.cart
+    default:
+      return state
   }
 }
-
-const AllUserCarts = connect(mapState, mapDispatch)(AllCarts)
-export default AllUserCarts

@@ -21,7 +21,7 @@ export class AllCarts extends React.Component {
   }
 
   render() {
-    const activeCart = this.props.cart[0]
+    const activeCart = this.props.cart
     const subtotal = activeCart ? activeCart.cartTotalPrice : ' '
     // console.log('ACTIVE CART!!!', activeCart)
     // console.log('this.props.cart', this.props.cart)

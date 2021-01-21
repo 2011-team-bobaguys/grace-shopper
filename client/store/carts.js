@@ -36,7 +36,7 @@ export const fetchAllCarts = () => {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_CARTS:
-      return [...state, ...action.carts] // return array of cart objects
+      return action.carts // return array of cart objects
     default:
       return state
   }

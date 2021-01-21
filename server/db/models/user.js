@@ -45,7 +45,8 @@ const User = db.define('User', {
   },
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: '/user.png'
+    defaultValue:
+      'https://cdn4.iconfinder.com/data/icons/man-worker-avatar/64/artist_painter_avatar_worker_man_user_profession-512.png'
   }
 })
 

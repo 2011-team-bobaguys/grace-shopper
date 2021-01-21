@@ -28,8 +28,12 @@ export class AllCarts extends React.Component {
     this.props.loadActiveCart()
   }
 
-  handleCheckout() {
+  handleCheckout(subtotal) {
     this.props.loadCheckoutCart()
+    this.props.history.push({
+      pathname: '/checkout-success',
+      totalPrice: subtotal
+    })
   }
 
   handleDelete(productId) {
@@ -42,10 +46,14 @@ export class AllCarts extends React.Component {
 
   render() {
     const activeCart = this.props.cart
-    const subtotal = activeCart ? activeCart.cartTotalPrice : ' '
-    if (!this.props.user.id) {
-      return <p>This is the guest cart for now!</p>
-    } else if (activeCart === '' || !activeCart || !activeCart.Products) {
+    let subtotal = 0
+
+    if (activeCart.Products) {
+      subtotal = activeCart.Products.reduce((accum, product) => {
+        return accum + product.price * product.CartProduct.quantity
+      }, 0)
+    }
+    if (activeCart === '' || !activeCart || !activeCart.Products) {
       return (
         <div>
           <h3>Your cart is empty right now! Go shopping!</h3>
@@ -98,7 +106,9 @@ export class AllCarts extends React.Component {
             {`Subtotal:
             $${(subtotal / 100).toLocaleString('en-US')}`}
           </h3>
-          <Button onClick={() => this.handleCheckout()}>Checkout</Button>
+          <Button onClick={() => this.handleCheckout(subtotal)}>
+            Checkout
+          </Button>
         </div>
       )
     }

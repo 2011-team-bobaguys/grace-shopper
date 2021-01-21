@@ -1,20 +1,47 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {fetchAllCarts} from '../store/carts'
 
 /**
  * COMPONENT
  */
-export const UserHome = props => {
-  const {user} = props
+export class UserHome extends React.Component {
+  componentDidMount() {
+    this.props.fetchAllCarts()
+  }
 
-  return (
-    <div>
-      <h3>
-        Welcome, {user.firstName} {user.lastName}
-      </h3>
-    </div>
-  )
+  render() {
+    const {user} = this.props
+    let inActive = this.props.carts.filter(function(cart) {
+      return cart.active === false
+    })
+
+    return (
+      <div>
+        <h2>
+          Welcome, {user.firstName} {user.lastName}
+        </h2>
+        <h3>({user.email})</h3>
+        <h3>
+          <img src={user.imageUrl} alt="Our user" />
+        </h3>
+        <h2>All your prevoius purchases:</h2>
+        <div>
+          {inActive.map(cart => (
+            <div key={cart.id}>
+              {cart.Products.map(product => (
+                <div key={product.id}>
+                  <h3>Title of art: {product.title}</h3>
+                </div>
+              ))}
+              <h3>Date of Purchase: {cart.purchaseDate}</h3>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
 }
 
 /**
@@ -22,11 +49,18 @@ export const UserHome = props => {
  */
 const mapState = state => {
   return {
-    user: state.user
+    user: state.user,
+    carts: state.carts
   }
 }
 
-export default connect(mapState)(UserHome)
+const mapDispatch = dispatch => {
+  return {
+    fetchAllCarts: () => dispatch(fetchAllCarts())
+  }
+}
+
+export default connect(mapState, mapDispatch)(UserHome)
 
 /**
  * PROP TYPES

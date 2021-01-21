@@ -7,6 +7,11 @@ import {fetchAllCarts} from '../store/carts'
  * COMPONENT
  */
 export class UserHome extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
   componentDidMount() {
     this.props.fetchAllCarts()
   }
@@ -32,10 +37,20 @@ export class UserHome extends React.Component {
             <div key={cart.id}>
               {cart.Products.map(product => (
                 <div key={product.id}>
-                  <h3>Title of art: {product.title}</h3>
+                  <p>
+                    <i>Title of art: {product.title}</i>
+                  </p>
+                  <p>
+                    <i>Quantity purchased: {product.CartProduct.quantity}</i>
+                  </p>
+                  <p>
+                    <i>Total price: ${product.CartProduct.totalPrice}</i>
+                  </p>
                 </div>
               ))}
-              <h3>Date of Purchase: {cart.purchaseDate}</h3>
+              <p>
+                <i>Date of Purchase: {cart.purchaseDate}</i>
+              </p>
             </div>
           ))}
         </div>

@@ -37,14 +37,6 @@ class GuestCart extends React.Component {
     const productList = this.props.products
     let totalPrice = 0
 
-    if (productList.length) {
-      totalPrice = Object.keys(guestCart)
-        .reduce((accum, key) => {
-          return accum + productList[key - 1].price * guestCart[key]
-        }, 0)
-        .toLocaleString('en-US')
-    }
-
     if (productList.length === 0) {
       return <p>Loading cart...</p>
     }
@@ -115,7 +107,9 @@ class GuestCart extends React.Component {
 
                     <p style={{marginTop: 0, marginBottom: 2}}>
                       Price: $
-                      {(productInfo.price * quantity).toLocaleString('en-US')}
+                      {(productInfo.price * quantity / 100).toLocaleString(
+                        'en-US'
+                      )}
                     </p>
                     <button
                       style={{
@@ -150,9 +144,12 @@ class GuestCart extends React.Component {
             }}
             type="submit"
             onClick={() => {
+              let guestCart = this.state.guestCart
               this.props.history.push({
                 pathname: '/checkout-success',
-                totalPrice: totalPrice
+                totalPrice: Object.keys(guestCart).reduce((accum, key) => {
+                  return accum + productList[key - 1].price * guestCart[key]
+                }, 0)
               })
               window.localStorage.setItem('guestCart', JSON.stringify({}))
             }}
@@ -161,7 +158,11 @@ class GuestCart extends React.Component {
           </button>
           <h4>
             Subtotal:$
-            {totalPrice}
+            {(
+              Object.keys(guestCart).reduce((accum, key) => {
+                return accum + productList[key - 1].price * guestCart[key]
+              }, 0) / 100
+            ).toLocaleString('en-US')}
           </h4>
         </div>
       </div>

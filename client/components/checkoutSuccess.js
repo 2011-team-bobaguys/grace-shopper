@@ -18,11 +18,12 @@ const CheckoutSuccess = props => {
       }}
     >
       <h3>Thanks for your purchase!</h3>
-      <img src="https://2.bp.blogspot.com/-h8mk8H6ormE/VIwefHoeIrI/AAAAAAAAAfo/qpMXH_36Taw/s1600/cost.jpg" />
       <h2>
-        You just spent ${(totalPrice / 100).toLocaleString('en-US')}! WOW!
+        Your order total wass ${(totalPrice / 100).toLocaleString('en-US')}.
       </h2>
-      <h2>Enjoy your 100% REAL ART!</h2>
+      <h2>
+        Enjoy your art! For your order history, head to your user profile.
+      </h2>
     </div>
   )
 }
